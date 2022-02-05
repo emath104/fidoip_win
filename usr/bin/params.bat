@@ -1,1 +1,1 @@
-SET FIDOCONFIG=C:\usr\fidoconf\config.cfg
+SET FIDOCONFIG=D:\usr\fidoconf\config.cfg

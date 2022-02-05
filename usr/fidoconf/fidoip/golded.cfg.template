@@ -32,29 +32,29 @@ ROBOTNAME FileFix
 ROBOTNAME "DM Tic"
 ROBOTNAME SqaFix
 
-EDITCOMPLETION "Ќ" "H" ;¤«п § ¬Ґ­л ў а®¤­®¬ аҐ¤ Єв®аҐ (ЇҐаў п H агббЄ п)
-EDITSOFTCRXLAT H       ;¤«п § ¬Ґ­л ЇаЁ Ё¬Ї®авЁа®ў ­ЁЁ
+UseSoftCRxlat Yes 	;  EDITCOMPLETION "Ќ" "H" ; Для жесткой замены буквы Н удалите UseSoftCRxlat Yes
+EDITSOFTCRXLAT H       ;
 DISPSOFTCR Yes
 
 IMPORTBEGIN >---=== Љгвм ®­ "@file" ===--- 
 IMPORTEND >---=== Љгвм ®дд "@file" ===--- 
 
-AddressMacro afix,AreaFix,2:5020/828,"12345678",K/S,Dir
+AddressMacro afix,AreaFix,2:5020/XXX,"12345678",K/S,Dir
 
 LogFile		\home\fido\golded.log
 UuDecodePath    \home\fido\uudecode
 OutPutFile      \home\fido\outfile
 TemplatePath	\usr\golded+
 include         \usr\golded+\gedcolor.cfg
-; =е приветcтвовать роботов
+; Не приветcтвовать роботов
 RobotName AreaFix
-RobotName AllFix
+RobotName FileFix
 RobotName T-fix
 RobotName FAQServer
-; -обавление всех адресатов, которvм пишите во всех областях в адреснуі книгу 
+; заносить адресаты, которым пишите во всех областях в адресную книгу 
 ; /usr/local/etc/golded+/golduser.lst
 AddressBookAdd  Always
-; -ля занесения  в  адреснуі книгу автора сообения  вручнуі нажмите Ctrl-B
+; Для занесения  в  адресную книгу автора сообщения  вручную нажмите Ctrl-B
 ^B      READAddressBookAdd
 ; іросмотр адресной книги - Alt-F10.
 @F10    READUserBase

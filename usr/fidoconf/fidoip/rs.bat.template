@@ -1,9 +1,7 @@
 @echo off
 call params.bat
-\usr\bin\hpt.exe scan
-\usr\bin\hpt.exe pack
+\usr\bin\hpt.exe scan pack
 \usr\bin\binkd.exe -cp -P2:5020/XXX \usr\fidoconf\binkd.cfg
-\usr\bin\hpt.exe toss
 \usr\bin\htick.exe toss
 \usr\bin\htick.exe announce
-\usr\bin\hpt.exe link *
+\usr\bin\hpt.exe toss link

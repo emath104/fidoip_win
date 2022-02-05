@@ -8,7 +8,7 @@ Option Explicit
 const yourFullName      = "Vasiliy Pampasov"
 const yourFTNAddress    = "2:5020/828.555"
 const yourStationName   = "MyStation"
-const yourLocation      = "Russia, Moscow"
+const yourLocation      = "Moscow, Russia"
 const yourUplinkName    = "Kirill Temnenkov"
 const uplinkFTNAddress  = "2:5020/828"
 const uplinkServerName  = "temnenkov.dyndns.org"
@@ -62,7 +62,7 @@ Sub ProcessStation(ByVal fName)
 End Sub
 
 Sub ProcessLocation(ByVal fName)
- ProcessFile fName, "Russia, Moscow", yourLocation
+ ProcessFile fName, "Moscow, Russia", yourLocation
 End Sub
 
 Sub ProcessUpName(ByVal fName)
