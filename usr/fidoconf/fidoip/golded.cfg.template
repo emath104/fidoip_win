@@ -38,7 +38,7 @@ DISPSOFTCR Yes
 
 IMPORTBEGIN >---=== ä„‚Ï Æ≠ "@file" ===--- 
 IMPORTEND >---=== ä„‚Ï Æ‰‰ "@file" ===--- 
-
+DispHdrDateSet -20 20
 AddressMacro afix,AreaFix,2:5020/XXX,"12345678",K/S,Dir
 
 LogFile		\home\fido\golded.log
