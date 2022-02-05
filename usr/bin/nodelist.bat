@@ -1,0 +1,1 @@
+\usr\bin\gncyg.exe -C \usr\golded+\golded.cfg

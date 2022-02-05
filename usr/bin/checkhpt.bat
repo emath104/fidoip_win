@@ -1,0 +1,1 @@
+\usr\bin\tparser.exe \usr\fidoconf\config.cfg

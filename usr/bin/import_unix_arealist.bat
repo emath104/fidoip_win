@@ -1,0 +1,1 @@
+IF EXIST \home\fido\config.unx (more \home\fido\config.unx >> \usr\fidoconf\config.cfg ) ELSE echo windows's fidoip temporary area list is missing. Trasfer area list manually. 

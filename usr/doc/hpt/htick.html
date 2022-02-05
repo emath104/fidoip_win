@@ -1,0 +1,1769 @@
+<html lang="en">
+<head>
+<title>HTICK 1.4 - Husky Ticker</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="HTICK 1.4 - Husky Ticker">
+<meta name="generator" content="makeinfo 4.7">
+<link title="Top" rel="top" href="#Top">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc { font-variant:small-caps }
+  span.roman { font-family: serif; font-weight: normal; } 
+--></style>
+</head>
+<body>
+<h1 class="settitle">HTICK 1.4 - Husky Ticker</h1>
+<div class="node">
+<p><hr>
+<a name="Top"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Overview">Overview</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#dir">(dir)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
+<br>
+</div>
+
+<h2 class="unnumbered">HTICK</h2>
+
+<p>This document describes HTICK 1.4, a Fidonet Fileecho
+Processor for OS/2, Windows, BeOS and Unix clones.
+
+<ul class="menu">
+<li><a accesskey="1" href="#Overview">Overview</a>:                     What is HTICK? 
+<li><a accesskey="2" href="#Installation">Installation</a>:                 Installation. <em>Read this!</em>
+<li><a accesskey="3" href="#Command-Line">Command Line</a>:                 Command Line OPTIONS and SWITCHES
+<li><a accesskey="4" href="#Configuration-Reference">Configuration Reference</a>:      Explanation of the configuration file. 
+<li><a accesskey="5" href="#Support">Support</a>:                      Support information. 
+<li><a accesskey="6" href="#Keyword-Index">Keyword Index</a>:                Configuration File Keywords Index
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="Overview"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Installation">Installation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Top">Top</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+<br>
+</div>
+
+<h2 class="chapter">1 An Overview of HTICK</h2>
+
+<p>HTICK is a Fidonet fileareas tosser with filefix. Now project is being
+supported by Husky Development Team (see <a href="http://husk.sf.net/team.html">http://husk.sf.net/team.html</a>).
+
+   <p>HTICK features:
+     <ol type=1 start=1>
+<li>Tossing fileareas. 
+<li>Filefix (on the fly, from command line, limit for areas...). 
+<li>Autocreate on the fly. 
+<li>Automatic forwarding of requests for missing areas to the uplinks. 
+<li>Switching areas into passive (send-only) and back into active mode. 
+<li>Resending files from passthrough and none passthrough fileareas. 
+<li>Groups &amp; levels for personal and public access to fileareas. 
+<li>Security check of tossgroup. 
+<!-- @item dupe checking. -->
+<li>Link defaults. 
+<li>Posting to net &amp; echo areas. 
+<li>Flexible file announcements via echo or netmail messages. 
+Wildcards in filearea tags allow easy configuration of
+multiple announcement areas for different groups of fileareas. 
+<li>Save announcements to disk, so you are protected from
+losing announcements because of critical HTICK termination
+(insufficient disk space, ^Break pressed, power off etc). 
+<li>much, much more :)
+        </ol>
+
+   <p>The advantages of HTICK are:
+
+     <ol type=1 start=1>
+<li>Open Source (GPL)
+<li>Many supported platforms &amp; operating systems
+<li>Quick bug fixing
+        </ol>
+
+<div class="node">
+<p><hr>
+<a name="Installation"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Download">Download</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Overview">Overview</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+<br>
+</div>
+
+<h2 class="chapter">2 Installation Procedures and Release Notes</h2>
+
+<p>This chapter provides you with information that is necessary to successfully
+install and use HTICK.
+
+   <p>We suppose that you already has compiled binaries. If not - read "Download"
+or "Compile the Source Code" chapters.
+
+     <ol type=1 start=1>
+<li>Read FIDOCONFIG documentation about location of config files
+<li>Edit config files for your purposes
+<li>Run <code>tparser</code> from FIDOCONFIG package to test your config
+(read about <code>PublicGroup</code> or <code>AccessGrp</code> if you want to use
+groups for <code>FileEchoAreas</code>)
+<li>It is simply, isn't it? Enjoy! :-)
+        </ol>
+
+<ul class="menu">
+<li><a accesskey="1" href="#Download">Download</a>:   Download the Source Code &amp; Binary Files
+<li><a accesskey="2" href="#Compiling">Compiling</a>:  How to compile the source code
+<li><a accesskey="3" href="#Support">Support</a>:    Support, Contacting the Author, Reporting Bugs, Contributing Code
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="Download"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Compiling">Compiling</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Installation">Installation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Installation">Installation</a>
+<br>
+</div>
+
+<h3 class="section">2.1 Download the Source Code &amp; Binary Files</h3>
+
+     <dl>
+<dt>Main page (releases, source code, latest beta versions) - <a href="http://husky.sf.net/htick.html">http://husky.sf.net/htick.html</a><br><dt>Direct link to 'stable' branch sources: <a href="http://husky.sf.net/cvs2/stable/">http://husky.sf.net/cvs2/stable/</a><br><dt>Direct link to 'current' (development) branch sources: <a href="http://husky.sf.net/cvs2/current/">http://husky.sf.net/cvs2/current/</a><dd></dl>
+
+<div class="node">
+<p><hr>
+<a name="Compiling"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Support">Support</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Download">Download</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Installation">Installation</a>
+<br>
+</div>
+
+<h3 class="section">2.2 Compiling the Source Code</h3>
+
+<p>1. The smapi and fidoconf packages are required for htick.
+
+   <p>2. Put the fidoconf and smapi packages to the directory where the
+   other packages of fido linux reside:
+
+     <dl>
+<dt>/usr/src/packages/<br><dt>-&gt; smapi/<br><dt>-&gt; fidoconfig/<br><dt>-&gt; htick/<br><dt><dd></dl>
+
+   <p>3. Compile and install smapi and fidoconf packages. Use "Makefile" for
+   dynamic executables and makefile.lnx (or what you need) for static
+   ones.
+
+   <p>4. Compile and install HTICK:
+     <dl>
+<dt>$ make<br><dt>$ make install<dd></dl>
+   You should use the _same_ makefiles in smapi, fidoconf and htick.
+
+<div class="node">
+<p><hr>
+<a name="Support"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Command-Line">Command Line</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Compiling">Compiling</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Installation">Installation</a>
+<br>
+</div>
+
+<h3 class="section">2.3 Support</h3>
+
+<p>There are numerous reasons why you might wish to establish contact with developers.
+
+     <ol type=1 start=1>
+<li>You have decided to use HTICK on a regular basis. In this case,
+please do send a netmail at the address listed below.
+
+     <li>You have a general questions on how to configure or on how to use a certain
+feature of HTICK. In other words, you need support. In this case,
+you'd best post your question to one of the following echos:
+
+          <dl>
+<dt><code>FIDOSOFT.HUSKY</code><dd>The international Husky conference. English is the preferred language here. 
+<br><dt><code>RU.HUSKY</code><dd>This Russian echo covers Husky Project. 
+</dl>
+
+     <p>If you have access to Internet, you may of course post your support request
+or bug report into form on husky development site:
+http://sourceforge.net/projects/husky, click the "Bugs" link if you want to post
+a bug report.
+
+     <p>If you do not have access to any of these echos and internet, you may of course
+also contact developers via netmail or e-mail at the addresses listed below.
+
+     <li>You want to report a bug. There are two sorts of bugs:
+
+          <ol type=a start=1>
+<li>Normal bugs. 
+You think that a certain function of HTICK does not work as expected,
+e.g. it is producing garbage, or doing strange things, or similar. In this
+case, either post to the echos listed above, bugrack on site or contact
+developers via netmail. Please do supply all information that is necessary
+to understand your problem.
+
+          <li>Fatal bugs. 
+A fatal bug occurs if HTICK crashes. Depending on your operating
+system, the symptom might be a core dump, or a SYS 3175, or a general
+protection fault, or a system lockup, or a spontaneous reboot. We do consider
+a crash untolerable. No matter how stupid things you do, you should not be
+able to crash HTICK.
+
+          <p>If you are experienced user and get core dump, you can send developers gdb
+report. If you have a crash, locate <span class="file">core</span> file that has been
+generated. Then run $ gdb htick core, type where. HTICK must be
+compiled with debug information (DEBUG=1 in <span class="file">huskymak.cfg</span> file). 
+Then send report to addresses below.
+
+          <p>If you are running any other binary version (like Windows), you will not
+get a core file on a crash. Write down as much information as you can,
+try to find a way to reproduce the crash and contact autors at the addresses
+below. Please attach log-file with <code>loglevels 1-0A-Za-z</code> (all numbers
+and letters).
+          </ol>
+
+     <li>You want to contribute to HTICK. 
+If you are a programmer and have fixed a problem in HTICK on your
+own, please submit your changes to me. The preferred way for doing so is to
+send to developers a difference file in GNU diff format (with -c parameter). 
+Your work will be highly appreciated and honored in an appropriate place. 
+If you want to regularly work on HTICK, we also have a CVS server
+online that you can have access to if you like.
+
+     <p>If you want to write a new feature for HTICK, please contact developers
+beforehand to avoid that we do duplicate work. Again, we will appreciate and
+honor any efforts done by you. Please note that for writing a HTICK
+enhancement, you should be familiar with C. Also, HTICK uses a
+special indentation style throughout the source code, that we would like
+you to adhere to.
+        </ol>
+
+   <p>So here are developers' addresses if you want to get in contact with us:
+
+     <ul>
+<li>Fidonet:
+Max Chernogor @ 2:464/108
+<li>e-mail:
+mche@ua.fm
+</ul>
+
+     <ul>
+<li>Fidonet:
+Stas Degteff @ 2:5080/102
+<li>e-mail:
+stas_degteff@users.sf.net
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="Command-Line"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Configuration-Reference">Configuration Reference</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Support">Support</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+<br>
+</div>
+
+<h2 class="chapter">3 HTICK 1.4 Command Line OPTIONS and SWITCHES</h2>
+
+<p>To get help about the command line syntax use HTICK without any arguments
+
+     <dl>
+<dt>Syntax:<dd><span class="command">htick [options] &lt;command&gt;</span>
+<br><dt>where <code>&lt;command&gt;</code> is:<dd>
+          <dl>
+<dt>toss<dd>Reading *.tic and tossing files
+<br><dt>scan<dt>ffix<dd>Scanning Netmail area for mails to filefix and process filefix command
+<br><dt>ffix &lt;FTN address&gt; &lt;filefix command&gt;<dd>Process filefix command <code>command</code> from command line
+<br><dt>ffix! &lt;FTN address&gt; &lt;filefix command&gt;<dd>Does the same job as 'ffix' and send subscride/unsubscribe letter to link
+that was manualy subscribed/unsubscribed by filefix command like:
+htick ffix! 2:464/910 -910.TEST
+This command remove file echo link 2:464/910 from 910.TEST and produce letter
+to 2:464/910 with body "-910.TEST"
+<br><dt>clean<dd>Clean passthrough dir (remove sent files) and remove old files in fileechos
+<br><dt>announce<dd>Announce new files as defined in Ann* config statements
+(See See <a href="#Announce-System">Announce System</a>.) 
+<br><dt>hatch &lt;file&gt; &lt;area&gt; [replace [&lt;filemask&gt;]] [desc [&lt;desc&gt;] [&lt;ldesc&gt;]]<dd>Hatch file into Area using Description for file; if "replace" exists then
+fill replace field in TIC; if &lt;filemask&gt; doesn't exist then put &lt;file&gt; in field. 
+Desc's parameters may be:
+               <dl>
+<dt><code>@BBS</code><dd>to load description from files.bbs
+<br><dt><code>@DIZ</code><dd>to load description from the contained File_Id.Diz
+<br><dt><code>@&lt;file&gt;</code><dd>to load description from &lt;file&gt;
+<br><dt><code>@@BBS</code><dd>to use first line from Files.Bbs
+<br><dt><code>@@DIZ</code><dd>to use first line from the contained File_Id.Diz
+<br><dt><code>@@&lt;file&gt;</code><dd>to use first line from &lt;file&gt;
+</dl>
+
+          <br><dt>send &lt;file&gt; &lt;filearea&gt; &lt;address&gt;<dd>Send file from filearea to address
+<br><dt>filelist &lt;file&gt; [&lt;dirlist&gt;]<dd>Generate filelist containing all files in base.
+
+               <ul>
+<li><code>&lt;file&gt;</code>
+filename to write output to. 
+<li><code>&lt;dirlist&gt;</code>
+list of files' which should be included into filelist paths. 
+</ul>
+          </dl>
+     </dl>
+
+<div class="node">
+<p><hr>
+<a name="Configuration-Reference"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Keywords">Keywords</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Command-Line">Command Line</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+<br>
+</div>
+
+<h2 class="chapter">4 HTICK 1.4 Configuration Reference</h2>
+
+<p>HTICK is based on FIDOCONFIG library, so read documentation of
+FIDOCONFIG about location of config file and keywords ideology.
+
+<ul class="menu">
+<li><a accesskey="1" href="#Keywords">Keywords</a>:                This chapter describes keywords
+<li><a accesskey="2" href="#Common-husky-keywords">Common husky keywords</a>:   List of keywords used in many husky programs
+<li><a accesskey="3" href="#Link-Keywords">Link Keywords</a>:           Keywords that can be repeated for different links
+<li><a accesskey="4" href="#FileArea-Definition">FileArea Definition</a>:     FileAreas definition
+<li><a accesskey="5" href="#Announce-System">Announce System</a>:         Announces definition
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="Keywords"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileAreaBaseDir">FileAreaBaseDir</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Configuration-Reference">Configuration Reference</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Configuration-Reference">Configuration Reference</a>
+<br>
+</div>
+
+<h3 class="section">4.1 Keywords</h3>
+
+<ul class="menu">
+<li><a accesskey="1" href="#FileAreaBaseDir">FileAreaBaseDir</a>:       Base directory for FileAreas. 
+<li><a accesskey="2" href="#PassFileAreaDir">PassFileAreaDir</a>:       In this directory shall be put files from Passthrough
+                         Fileareas. 
+<li><a accesskey="3" href="#FileDescPos">FileDescPos</a>:           Indent position for long descriptions in FILES.BSS. 
+<li><a accesskey="4" href="#fileLDescString">fileLDescString</a>:       Prefix string for long descriptions in FILES.BBS. 
+<li><a accesskey="5" href="#FileFixHelp">FileFixHelp</a>:           Help file for FileFix. 
+<li><a accesskey="6" href="#FileArea">FileArea</a>:              Filearea definition. 
+<li><a accesskey="7" href="#ExecOnFile">ExecOnFile</a>:            Execute some command on receiving file. 
+<li><a accesskey="8" href="#SaveTic">SaveTic</a>:               Save files with tics. 
+<li><a accesskey="9" href="#MaxTicLineLength">MaxTicLineLength</a>:      Set maximum line length in outgoing TICs to number. 
+<li><a href="#BusyFileDir">BusyFileDir</a>:           Where shall be put TICs for busy links. 
+<li><a href="#ConvertLongNames">ConvertLongNames</a>:      What to do with long names when toss or hatch. 
+<li><a href="#ConvertShortNames">ConvertShortNames</a>:     What to do with short names when toss or hatch. 
+<li><a href="#addDLC">addDLC</a>:                Add Download counters to FILES.BBS. 
+<li><a href="#DLCDigits">DLCDigits</a>:             How much digits DLC must be. 
+<li><a href="#ticOutbound">ticOutbound</a>:           TICs are stored here and killed after transmission. 
+<li><a href="#filefixKillRequests">filefixKillRequests</a>:   Kill filefix request after processing. 
+<li><a href="#filefixReportsAttr">filefixReportsAttr</a>:    Set kill/sent flag to filefix replies. 
+<li><a href="#BBSarea">BBSarea</a>:               Filearea without subscribing (for `htick filelist`). 
+<li><a href="#fileDescName">fileDescName</a>:          If no LDESC is defined in tic file, use &lt;name&gt; file
+                         from archive to fill it. 
+<li><a href="#FileAreaCreatePerms">FileAreaCreatePerms</a>:   Set permissions for newly created filearea directories. 
+<li><a href="#FileFixFromName">FileFixFromName</a>:       Originator name in filefix replies. 
+<li><a href="#AutoFileCreateFlag">AutoFileCreateFlag</a>:    Create flag when filearea has been autocreated. 
+<li><a href="#FileFixNames">FileFixNames</a>:          Set of names on which FileFix will respond. 
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="FileAreaBaseDir"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#PassFileAreaDir">PassFileAreaDir</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Keywords">Keywords</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.1 FileAreaBaseDir</h4>
+
+<p><a name="index-FileAreaBaseDir-1"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileAreaBaseDir &lt;directory&gt;</code>
+<br><dt>Example:<dd><code>FileAreaBaseDir /var/spool/fido/fileareas</code>
+</dl>
+
+   <p>Where the directories for all Fileareas shall be made at autocreate. Same as MsgBaseDir.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="PassFileAreaDir"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileDescPos">FileDescPos</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileAreaBaseDir">FileAreaBaseDir</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.2 PassFileAreaDir</h4>
+
+<p><a name="index-PassFileAreaDir-2"></a>
+     <dl>
+<dt>Syntax:<dd><code>PassFileAreaDir &lt;directory&gt;</code>
+<br><dt>Example:<dd><code>PassFileAreaDir /var/spool/fido/transit</code>
+</dl>
+
+   <p>Where shall be put files from Passthrough Fileareas (and TICs, if ticOutbound is not defined).
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="FileDescPos"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#fileLDescString">fileLDescString</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#PassFileAreaDir">PassFileAreaDir</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.3 FileDescPos</h4>
+
+<p><a name="index-FileDescPos-3"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileDescPos &lt;number&gt;</code>
+<br><dt>Example:<dd><code>FileDescPos 13</code>
+</dl>
+
+   <p>The number of spaces to indent long descriptions in FILES.BBS. Recommend: 13 (8.3+space)
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="fileLDescString"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileFixHelp">FileFixHelp</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileDescPos">FileDescPos</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.4 fileLDescString</h4>
+
+<p><a name="index-fileLDescString-4"></a>
+     <dl>
+<dt>Syntax:<dd><code>fileLDescString &lt;string&gt;</code>
+<br><dt>Example:<dd><code>fileLDescString "&gt;"</code>
+</dl>
+
+   <p>This string is put before long descriptions in FILES.BBS (Usually "&gt;" or "+".). 
+Default value: single space.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="FileFixHelp"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#ExecOnFile">ExecOnFile</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#fileLDescString">fileLDescString</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.5 FileFixHelp</h4>
+
+<p><a name="index-FileFixHelp-5"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileFixHelp &lt;string&gt;</code>
+<br><dt>Example:<dd><code>FileFixHelp /usr/local/fido/filefix.hlp</code>
+</dl>
+
+   <p>Help file for FileFix, same as AreaFixHelp for HPT's AreaFix
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="ExecOnFile"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#SaveTic">SaveTic</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileFixHelp">FileFixHelp</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.6 ExecOnFile</h4>
+
+<p><a name="index-ExecOnFile-6"></a>
+     <dl>
+<dt>Syntax:<dd><code>ExecOnFile &lt;filearea&gt; &lt;filemask&gt; &lt;command&gt;</code>
+<br><dt>Example:<dd><code>ExecOnFile husky *.diff /usr/local/fido/update_source.sh</code>
+</dl>
+
+   <p>Execute some command on receiving file. 
+Command gets full filepath as parameter (space and file pathname should be
+appended to command string before execution).
+
+   <p>This statement can be repeated.
+
+<div class="node">
+<p><hr>
+<a name="SaveTic"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#MaxTicLineLength">MaxTicLineLength</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ExecOnFile">ExecOnFile</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.7 SaveTic</h4>
+
+<p><a name="index-SaveTic-7"></a>
+     <dl>
+<dt>Syntax:<dd><code>SaveTic &lt;FileEchoMask&gt; &lt;FileOption&gt; &lt;DirToSaveTic&gt;</code>
+<br><dt>Example:<dd><code>SaveTic husky -l /usr/local/husky</code>
+</dl>
+
+     <dl>
+<dt>&lt;DirToSaveTic&gt;<dd>where to put TIC for fileecho[s] &lt;FileEchoMask&gt;
+
+     <br><dt>&lt;FileOption&gt;<dd>save files with tics. May be:
+
+          <dl>
+<dt>empty<dd>files will not be copied
+
+     </dl>
+
+          <dl>
+<dt><span class="option">-l</span><dd>link files from fileechodir to &lt;DirToSaveTic&gt;
+
+          <br><dt><span class="option">-c</span><dd>copy files from fileechodir to &lt;DirToSaveTic&gt;
+</dl>
+
+     <p>Options <span class="option">-l</span> and <span class="option">-c</span> work only for non-Passthrough fileechos
+</dl>
+
+   <p>This statement can be repeated.
+
+<div class="node">
+<p><hr>
+<a name="MaxTicLineLength"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#BusyFileDir">BusyFileDir</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#SaveTic">SaveTic</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.8 MaxTicLineLength</h4>
+
+<p><a name="index-MaxTicLineLength-8"></a>
+     <dl>
+<dt>Syntax:<dd><code>MaxTicLineLength &lt;number&gt;</code>
+<br><dt>Example:<dd><code>MaxTicLineLength 79</code>
+</dl>
+
+   <p>Set maximum line length in outgoing TICs to number.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="BusyFileDir"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#ConvertLongNames">ConvertLongNames</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#MaxTicLineLength">MaxTicLineLength</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.9 BusyFileDir</h4>
+
+<p><a name="index-BusyFileDir-9"></a>
+     <dl>
+<dt>Syntax:<dd><code>BusyFileDir &lt;directory&gt;</code>
+<br><dt>Example:<dd><code>BusyFileDir /var/spool/fido/htick.busy/</code>
+</dl>
+
+   <p>Where shall be put TICs for busy links (default &lt;outbound&gt;/busy.htk).
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="ConvertLongNames"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#ConvertShortNames">ConvertShortNames</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#BusyFileDir">BusyFileDir</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.10 ConvertLongNames</h4>
+
+<p><a name="index-ConvertLongNames-10"></a>
+     <dl>
+<dt>Syntax:<dd><code>ConvertLongNames &lt;Upper|Lower|DontTouch&gt;</code>
+<br><dt>Example:<dd><code>ConvertLongNames DontTouch</code>
+</dl>
+
+   <p>What to do with long names when toss or hatch. 
+Saying 'long name' we mean a mixed cased name or a name longer than 8.3
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="ConvertShortNames"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#addDLC">addDLC</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ConvertLongNames">ConvertLongNames</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.11 ConvertShortNames</h4>
+
+<p><a name="index-ConvertShortNames-11"></a>
+     <dl>
+<dt>Syntax:<dd><code>ConvertShortNames &lt;Upper|Lower|DontTouch&gt;</code>
+<br><dt>Example:<dd><code>ConvertShortNames DontTouch</code>
+</dl>
+
+   <p>What to do with short names when toss or hatch. 
+Saying 'short name' we mean a DOS-like name: 8.3, without mixed case.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="addDLC"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#DLCDigits">DLCDigits</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ConvertShortNames">ConvertShortNames</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.12 addDLC</h4>
+
+<p><a name="index-addDLC-12"></a>
+     <dl>
+<dt>Syntax:<dd><code>addDLC &lt;bool&gt;</code>
+<br><dt>Example:<dd><code>addDLC yes</code>
+</dl>
+
+   <p>Add Download counters ([000]) to files.bbs. Use with DLCDigits only!
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="DLCDigits"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#ticOutbound">ticOutbound</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#addDLC">addDLC</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.13 DLCDigits</h4>
+
+<p><a name="index-DLCDigits-13"></a>
+     <dl>
+<dt>Syntax:<dd><code>DLCDigits &lt;number&gt;</code>
+<br><dt>Example:<dd><code>DLCDigits 4</code>
+</dl>
+
+   <p>How much digits DLC must be. DLC has [000] form.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="ticOutbound"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#filefixKillRequests">filefixKillRequests</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#DLCDigits">DLCDigits</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.14 ticOutbound</h4>
+
+<p><a name="index-ticOutbound-14"></a>
+     <dl>
+<dt>Syntax:<dd><code>ticOutbound &lt;directory&gt;</code>
+<br><dt>Example:<dd><code>ticOutbound /var/spool/fido/ticOub</code>
+</dl>
+
+   <p>TICs are stored here and killed after transmission. Default: use PassFileAreaDir value
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="filefixKillRequests"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#filefixReportsAttr">filefixReportsAttr</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ticOutbound">ticOutbound</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.15 filefixKillRequests</h4>
+
+<p><a name="index-filefixKillRequests-15"></a>
+     <dl>
+<dt>Syntax:<dd><code>filefixKillRequests &lt;bool&gt;</code>
+<br><dt>Example:<dd><code>filefixKillRequests yes</code>
+</dl>
+
+   <p>Kill filefix request after processing.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="filefixReportsAttr"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#BBSarea">BBSarea</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#filefixKillRequests">filefixKillRequests</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.16 filefixReportsAttr</h4>
+
+<p><a name="index-filefixReportsAttr-16"></a>
+     <dl>
+<dt>Syntax:<dd><code>filefixReportsAttr &lt;attr&gt;</code>
+<br><dt>Example:<dd><code>filefixReportsAttr pvt,kill,loc</code>
+</dl>
+
+   <p>Set flags to filefix replies.
+
+   <p>Valid attributes are:
+     <dl>
+<dt>pvt<br><dt>crash<br><dt>read<br><dt>sent<br><dt>att<br><dt>fwd<br><dt>orphan<br><dt>k/s<br><dt>loc<br><dt>fwd<br><dt>xx2<br><dt>frq<br><dt>rrq<br><dt>cpt<br><dt>arq<br><dt>urq<br><dt>kfs<br><dt>tfs<br><dt>dir<br><dt>imm<br><dt>cfm<br><dt>npd<dd></dl>
+
+   <p>Default is "pvt loc k/s npd".
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="BBSarea"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#fileDescName">fileDescName</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#filefixReportsAttr">filefixReportsAttr</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.17 BBSarea</h4>
+
+<p><a name="index-BBSarea-17"></a>
+     <dl>
+<dt>Syntax:<dd><code>BBSarea &lt;name&gt; &lt;bbsareapath&gt;</code>
+<br><dt>Example:<dd><code>bbsarea bbs /var/spool/fido/bbsareas/bbs</code>
+</dl>
+
+   <p>Filearea without subscribing, not shown in filefix reports. 
+Use for filelist generation only (`htick filelist` command).
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="fileDescName"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileAreaCreatePerms">FileAreaCreatePerms</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#BBSarea">BBSarea</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.18 fileDescName</h4>
+
+<p><a name="index-fileDescName-18"></a>
+     <dl>
+<dt>Syntax:<dd><code>fileDescName &lt;name&gt;</code>
+<br><dt>Example:<dd><code>fileDescName file_id.diz</code>
+</dl>
+
+   <p>If LDESC is not defined in tic file, use &lt;name&gt; file from archive to fill it
+(usually file_id.diz).
+
+   <p>This statement can be repeated.
+
+<h4 class="subsection">4.1.19 Note</h4>
+
+<p><code>unpack</code> action should be defined for archive and contain <span class="option">$f</span> parameter
+(<span class="option">$f</span> is replaced with file name while unpacking).
+
+   <p>Examples:
+<pre class="example">     Unpack  "/path/to/unrar e -y -c- -o+ -inul $a $p $f"   0 52617221 # *.rar
+     Unpack  "d:\path\unrar  e -y -c- -o+ -inul $a $p $f"  28 52534658 # rar-sfx/DOS
+     Unpack "\path\pkzipc -ext -dir=none -over=all -nozip -silent $a $p $f" 0 504b0304
+     Unpack "unzip -joLqq $a -d $p" 0 504b0304
+     Unpack "pkunzip -njCL $a -d $p $f" 0 504b0304
+     Unpack "pkzip25 -ext -silent -over=all -nofix -nozip $a $p $f" 0
+</pre>
+   <div class="node">
+<p><hr>
+<a name="FileAreaCreatePerms"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileFixFromName">FileFixFromName</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#fileDescName">fileDescName</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.20 FileAreaCreatePerms</h4>
+
+<p><a name="index-FileAreaCreatePerms-19"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileAreaCreatePerms &lt;mode&gt;</code>
+<br><dt>Example:<dd><code>FileAreaCreatePerms 644</code>
+</dl>
+
+   <p>Define permissions for newly created filearea directories (UNIX only)
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="FileFixFromName"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AutoFileCreateFlag">AutoFileCreateFlag</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileAreaCreatePerms">FileAreaCreatePerms</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.21 FileFixFromName</h4>
+
+<p><a name="index-FileFixFromName-20"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileFixFromName &lt;string&gt;</code>
+<br><dt>Example:<dd><code>FileFixFromName FileFix</code>
+</dl>
+
+   <p>Originator name in filefix replies.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="AutoFileCreateFlag"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileFixNames">FileFixNames</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileFixFromName">FileFixFromName</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.22 AutoFileCreateFlag</h4>
+
+<p><a name="index-AutoFileCreateFlag-21"></a>
+     <dl>
+<dt>Syntax:<dd><code>AutoFileCreateFlag &lt;file&gt;</code>
+<br><dt>Example:<dd><code>AutoFileCreateFlag /usr/local/fido/flags/new_filearea</code>
+</dl>
+
+   <p>Create flag when filearea has been autocreated.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="FileFixNames"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Link-Keywords">Link Keywords</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AutoFileCreateFlag">AutoFileCreateFlag</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Keywords">Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.1.23 FileFixNames</h4>
+
+<p><a name="index-FileFixNames-22"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileFixNames &lt;string&gt;</code>
+<br><dt>Example:<dd><code>FileFixNames allfix filefix htick</code>
+</dl>
+
+   <p>Set of names separated by space on which FileFix will respond
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="Link-Keywords"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#fileEchoFlavour">fileEchoFlavour</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileFixNames">FileFixNames</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Configuration-Reference">Configuration Reference</a>
+<br>
+</div>
+
+<h3 class="section">4.2 Link Keywords</h3>
+
+<ul class="menu">
+<li><a accesskey="1" href="#fileEchoFlavour">fileEchoFlavour</a>:          This statement sets the flavour which outgoing
+                            files in fileechos for this link get. 
+<li><a accesskey="2" href="#fileAreaDefaults">fileAreaDefaults</a>:         Set defaults for filearea definitions that follow. 
+<li><a accesskey="3" href="#RemoteFileRobotName">RemoteFileRobotName</a>:      Name of remote filefix robot (need for
+                            FileForwardRequest). 
+<li><a accesskey="4" href="#FileFix">FileFix</a>:                  filefix access for this link
+<li><a accesskey="5" href="#FileFixEchoLimit">FileFixEchoLimit</a>:         Area subscription limit. 
+<li><a accesskey="6" href="#noTIC">noTIC</a>:                    Disable TIC file creation. 
+<li><a accesskey="7" href="#autoFileCreate">autoFileCreate</a>:           Allow or deny autocreating fileechos received from
+                            this link. 
+<li><a accesskey="8" href="#AutoFileCreateFile">AutoFileCreateFile</a>:       Specifies the file new filearea will be placed into. 
+<li><a accesskey="9" href="#AutoFileCreateDefaults">AutoFileCreateDefaults</a>:   Specifies the new filearea defaults. 
+<li><a href="#AutoFileCreateSubdirs">AutoFileCreateSubdirs</a>:    Whether to autocreate areas like /fils/gfd.app.edit
+                            (off) or /files/gfd/app/edit (on). 
+<li><a href="#delNotReceivedTIC">delNotReceivedTIC</a>:        If file not received then remove TIC. 
+<li><a href="#FileFixFSC87Subset">FileFixFSC87Subset</a>:       This boolean switch will change on a per link basis
+                            how TIC files are processed. 
+<li><a href="#TickerPackToBox">TickerPackToBox</a>:          If link has file box - toss files and tics there. 
+<li><a href="#LinkFileBaseDir">LinkFileBaseDir</a>:          Where autocreated fileareas will be placed. 
+<li><a href="#ForwardFileRequests">ForwardFileRequests</a>:      Allow fileareas subscribe requests to be forwarded
+                            to link. 
+<li><a href="#ForwardFilePriority">ForwardFilePriority</a>:      Priority in uplinks order for filearea subscribing
+                            forward-requests. 
+<li><a href="#ForwardFileRequestFile">ForwardFileRequestFile</a>:   List of available fileareas from this link. 
+<li><a href="#FileFixEchoLimit">FileFixEchoLimit</a>:         Area subscribe limit. 
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="fileEchoFlavour"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#fileAreaDefaults">fileAreaDefaults</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Link-Keywords">Link Keywords</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.1 fileEchoFlavour</h4>
+
+<p><a name="index-fileEchoFlavour-23"></a>
+     <dl>
+<dt>Syntax:<dd><code>fileEchoFlavour &lt;hold|normal|crash|direct|immediate&gt;</code>
+<br><dt>Example:<dd><code>fileEchoFlavour direct</code>
+</dl>
+
+   <p>This statement sets the flavour which outgoing files in fileechos for this link get. 
+For example set <code>fileEchoFlavour</code> to hold for points and to crash for uplinks.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="fileAreaDefaults"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#RemoteFileRobotName">RemoteFileRobotName</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#fileEchoFlavour">fileEchoFlavour</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.2 fileAreaDefaults</h4>
+
+<p><a name="index-fileAreaDefaults-24"></a>
+     <dl>
+<dt>Syntax:<dd><code>fileAreaDefaults &lt;options&gt; [links]</code>
+<br><dt>Example:<dd><code>fileAreaDefaults -lw 100 -g Z 2:5097/31.1</code>
+</dl>
+
+   <p>Set defaults for filearea definitions that follow. All options are possible,
+except areatag and path. 
+Settings in the filearea definition override <code>fileAreaDefaults</code>
+See also See <a href="hpt.html#echoAreaDefaults">echoAreaDefaults (hpt)</a>. Defaults are switched off
+with empty <code>fileAreaDefaults</code>.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="RemoteFileRobotName"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#noTIC">noTIC</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#fileAreaDefaults">fileAreaDefaults</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.3 RemoteFileRobotName</h4>
+
+<p><a name="index-RemoteFileRobotName-25"></a>
+     <dl>
+<dt>Syntax:<dd><code>RemoteFileRobotName &lt;name&gt;</code>
+<br><dt>Example:<dd><code>RemoteFileRobotName allfix</code>
+</dl>
+
+   <p>Name of remote filefix robot (needed for FileForwardRequest)
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="noTIC"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#autoFileCreate">autoFileCreate</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#RemoteFileRobotName">RemoteFileRobotName</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.4 noTIC</h4>
+
+<p><a name="index-noTIC-26"></a>
+     <dl>
+<dt>Syntax:<dd><code>noTIC &lt;bool&gt;</code>
+<br><dt>Example:<dd><code>noTIC yes</code>
+</dl>
+
+   <p>Disable TIC File Creation
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="autoFileCreate"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AutoFileCreateFile">AutoFileCreateFile</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#noTIC">noTIC</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.5 autoFileCreate</h4>
+
+<p><a name="index-autoFileCreate-27"></a>
+     <dl>
+<dt>Syntax:<dd><code>autoFileCreate &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>autoFileCreate on</code>
+</dl>
+
+   <p>Allow or deny autocreating fileechos received from this link.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="AutoFileCreateFile"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AutoFileCreateDefaults">AutoFileCreateDefaults</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#autoFileCreate">autoFileCreate</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.6 AutoFileCreateFile</h4>
+
+<p><a name="index-AutoFileCreateFile-28"></a>
+     <dl>
+<dt>Syntax:<dd><code>AutoFileCreateFile &lt;file&gt;</code>
+<br><dt>Example:<dd><code>AutoFileCreateFile /usr/local/fido/hpt/config.filefix</code>
+</dl>
+
+   <p>Specifies the file new filearea definitions will be placed into
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="AutoFileCreateDefaults"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AutoFileCreateSubdirs">AutoFileCreateSubdirs</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AutoFileCreateFile">AutoFileCreateFile</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.7 AutoFileCreateDefaults</h4>
+
+<p><a name="index-AutoFileCreateDefaults-29"></a>
+     <dl>
+<dt>Syntax:<dd><code>AutoFileCreateDefaults &lt;string&gt;</code>
+<br><dt>Example:<dd><code>AutoFileCreateDefaults -lw 100 -g Z</code>
+</dl>
+
+   <p>Specifies the new filearea defaults. Please don't set any paths here, use
+LinkFileBaseDir for these purposes. See <a href="#LinkFileBaseDir">LinkFileBaseDir</a>.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="AutoFileCreateSubdirs"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#delNotReceivedTIC">delNotReceivedTIC</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AutoFileCreateDefaults">AutoFileCreateDefaults</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.8 AutoFileCreateSubdirs</h4>
+
+<p><a name="index-AutoFileCreateSubdirs-30"></a>
+     <dl>
+<dt>Syntax:<dd><code>AutoFileCreateSubdirs &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>AutoFileCreateSubdirs on</code>
+</dl>
+
+   <p>Whether to autocreate areas like /filebase/gfd.app.edit (off) or /filebase/gfd/app/edit (on). 
+If you want to configure this globally instead of on per-link basis, set this in the deflink
+section. For more information see 'AutoAreaCreateSubdirs' in the hpt manual.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="delNotReceivedTIC"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileFixFSC87Subset">FileFixFSC87Subset</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AutoFileCreateSubdirs">AutoFileCreateSubdirs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.9 delNotReceivedTIC</h4>
+
+<p><a name="index-delNotReceivedTIC-31"></a>
+     <dl>
+<dt>Syntax:<dd><code>delNotReceivedTIC &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>delNotReceivedTIC on</code>
+</dl>
+
+   <p>Remove TIC if file was not received
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="FileFixFSC87Subset"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#TickerPackToBox">TickerPackToBox</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#delNotReceivedTIC">delNotReceivedTIC</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.10 FileFixFSC87Subset</h4>
+
+<p><a name="index-FileFixFSC87Subset-32"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileFixFSC87Subset &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>FileFixFSC87Subset on</code>
+</dl>
+
+   <p>This boolean switch will change on a per link basis how TIC files are processed. By default
+this switch is ON. htick will then operate only on FSC87-compliant keywords and ignore unknown
+keywords in the TIC file processed. If this switch is set to OFF all implemented keywords will
+be used which can (and, in interaction with some tick processors, WILL) lead to severe problems. 
+Unknown keywords found in a TIC file will make htick stop processing that file. If you don't
+know what all this is about set FileFixFSC87Subset to ON for all your links. It won't hurt.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="TickerPackToBox"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#LinkFileBaseDir">LinkFileBaseDir</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileFixFSC87Subset">FileFixFSC87Subset</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.11 TickerPackToBox</h4>
+
+<p><a name="index-TickerPackToBox-33"></a>
+     <dl>
+<dt>Syntax:<dd><code>TickerPackToBox &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>TickerPackToBox on</code>
+</dl>
+
+   <p>If link has file box - toss files and tics there
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="LinkFileBaseDir"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#ForwardFileRequests">ForwardFileRequests</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#TickerPackToBox">TickerPackToBox</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.12 LinkFileBaseDir</h4>
+
+<p><a name="index-LinkFileBaseDir-34"></a>
+     <dl>
+<dt>Syntax:<dd><code>LinkFileBaseDir &lt;directory&gt;</code>
+<br><dt>Example:<dd><code>LinkFileBaseDir /usr/local/fido/fileareas/2.5097.64.0</code>
+</dl>
+
+   <p>Where autocreated fileareas will be placed to (may be "passthrough")
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="ForwardFileRequests"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#ForwardFilePriority">ForwardFilePriority</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#LinkFileBaseDir">LinkFileBaseDir</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.13 ForwardFileRequests</h4>
+
+<p><a name="index-ForwardFileRequests-35"></a>
+     <dl>
+<dt>Syntax:<dd><code>ForwardFileRequests &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>ForwardFileRequests on</code>
+</dl>
+
+   <p>Allow fileareas forward-requests to this link.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="ForwardFilePriority"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#ForwardFileRequestFile">ForwardFileRequestFile</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ForwardFileRequests">ForwardFileRequests</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.14 ForwardFilePriority</h4>
+
+<p><a name="index-ForwardFilePriority-36"></a>
+     <dl>
+<dt>Syntax:<dd><code>ForwardFilePriority &lt;number&gt;</code>
+<br><dt>Example:<dd><code>ForwardFilePriority 1</code>
+</dl>
+
+   <p>Priority in uplinks order for filearea subscribing forward-requests
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="ForwardFileRequestFile"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileFix">FileFix</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ForwardFilePriority">ForwardFilePriority</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.15 ForwardFileRequestFile</h4>
+
+<p><a name="index-ForwardFileRequestFile-37"></a>
+     <dl>
+<dt>Syntax:<dd><code>ForwardFileRequestFile &lt;file&gt;</code>
+<br><dt>Example:<dd><code>ForwardFileRequestFile /usr/local/fido/hpt/uplink1.lst</code>
+</dl>
+
+   <p>List of available fileareas from this link
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="FileFix"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileFixEchoLimit">FileFixEchoLimit</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#ForwardFileRequestFile">ForwardFileRequestFile</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.16 FileFix</h4>
+
+<p><a name="index-FileFixEcho-38"></a>
+     <dl>
+<dt>Syntax:<dd><code>filefix &lt;bool&gt;</code>
+<br><dt>Example:<dd><code>filefix off</code>
+</dl>
+
+   <p>By default filefix is "on". You can turn off using of filefix by this link.
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="FileFixEchoLimit"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileArea-Definition">FileArea Definition</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileFix">FileFix</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Link-Keywords">Link Keywords</a>
+<br>
+</div>
+
+<h4 class="subsection">4.2.17 FileFixEchoLimit</h4>
+
+<p><a name="index-FileFixEchoLimit-39"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileFixEchoLimit &lt;number&gt;</code>
+<br><dt>Example:<dd><code>FileFixEchoLimit 10</code>
+</dl>
+
+   <p>Area subscribe limit (max fileareas number this link is allowed to subscribe to)
+
+   <p>This statement can only be repeated for different links.
+
+<div class="node">
+<p><hr>
+<a name="FileArea-Definition"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#FileArea">FileArea</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileFixEchoLimit">FileFixEchoLimit</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Configuration-Reference">Configuration Reference</a>
+<br>
+</div>
+
+<h3 class="section">4.3 FileArea Definition</h3>
+
+<ul class="menu">
+<li><a accesskey="1" href="#FileArea">FileArea</a>:                      definition of FileArea. 
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="FileArea"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Announce-System">Announce System</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileArea-Definition">FileArea Definition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#FileArea-Definition">FileArea Definition</a>
+<br>
+</div>
+
+<h4 class="subsection">4.3.1 FileArea</h4>
+
+<p><a name="index-FileArea-40"></a>
+     <dl>
+<dt>Syntax:<dd><code>FileArea &lt;name&gt; &lt;fileareapath&gt; [options] &lt;uplink&gt; &lt;downlinks&gt;</code>
+<br><dt>Example:<dd><code>FileArea husky /var/spool/fido/fileareas/husky -a 2:5097/31 -p 28 -g Z -d "HUSKY fileecho" 2:5097/64 2:5097/303</code>
+</dl>
+
+   <p>Same as EchoArea, most options are valid:
+
+     <dl>
+<dt>-a &lt;address&gt;<dd>Our own address for this area.
+
+     <br><dt>-d "&lt;string&gt;"<dd>Description for this filearea.
+
+     <br><dt>-g &lt;group&gt;<dd>Group for this filearea.
+
+     <br><dt>-hide<dd>Hide area (don't show in %LIST and in an announcement).
+
+     <br><dt>-nohide<dd>Show area in %LIST and in an announcement if fileareadefaults set to <code>-hide</code>.
+
+     <br><dt>-lr &lt;number&gt;<dd>"Read level": min link level for sending files from this filearea to this link. 
+Value can't be negative.
+
+     <br><dt>-lw &lt;number&gt;<dd>"Write level":
+Min link level allowed to post into this filearea files received from link. 
+Value can't be negative.
+
+     <br><dt>-mandatory<dd>Disallow remote unsubscribe (disable unsubscribe filefix command).
+
+     <br><dt>-nomandatory<dd>Allow remote unsubscribe (enable unsubscribe filefix command) if
+fileareadefaults set to <code>-mandatory</code>.
+
+     <br><dt>-manual<dd>Disallow remote subscribe (disable subscribe filefix command)
+
+     <br><dt>-nomanual<dd>Allow remote subscribe (enable subscribe filefix command)
+if fileareadefaults set to <code>-manual</code>.
+
+     <br><dt>-noCRC<dd>Disable CRC check for incoming files.
+
+     <br><dt>-CRC<dd>Enable CRC check for incoming files
+if fileareadefaults set to <code>-noCRC</code>.
+
+     <br><dt>-nodiz<dd>Do not try to get file description from &lt;fileDescName&gt; (for packed files).
+
+     <br><dt>-diz<dd>Try to get file description from &lt;fileDescName&gt; (for packed files)
+if fileareadefaults set to <code>-nodiz</code>.
+
+     <br><dt>-pause<dd>%PAUSE has effect to this filearea.
+
+     <br><dt>-nopause<dd>%PAUSE has no effect to this filearea
+if fileareadefaults set to <code>-pause</code>.
+
+     <br><dt>-noreplace<dd>Don't replace exisiting files in this filearea.
+
+     <br><dt>-replace<dd>Replace exisiting files in this filearea if fileareadefaults set to <code>-noreplace</code>.
+
+     <br><dt>-p &lt;integer&gt;<dd>Purge after n days. Setting to 0 to disables purging (this is default value).
+
+     <br><dt>-sendorig<dd>Send files from PassFileAreaDir for non passthrough areas.
+
+     <br><dt>-nosendorig<dd>Send files from FileArea directory for non passthrough areas
+if fileareadefaults set to <code>-sendorig</code>.
+
+   </dl>
+
+<div class="node">
+<p><hr>
+<a name="Announce-System"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnounceSpool">AnnounceSpool</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#FileArea">FileArea</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Configuration-Reference">Configuration Reference</a>
+<br>
+</div>
+
+<h3 class="section">4.4 Announce System</h3>
+
+<p>Htick announcements are selective, they can be different for different
+fileareas. 
+Token <code>AnnAreaTag</code> starts a new section of announce definition,
+other tokens define lists of fileareas included into announcement
+and describe announce message.
+
+   <p>To post announcements run <code>htick announce</code>.
+
+   <p>You may turn announcements off: just remove <code>AnnounceSpool</code>
+definition from config.
+
+<ul class="menu">
+<li><a accesskey="1" href="#AnnounceSpool">AnnounceSpool</a>:          Directory for accumulating report information. 
+<li><a accesskey="2" href="#AnnAreaTag">AnnAreaTag</a>:             Name of area or file where annoucement will be placed. 
+<li><a accesskey="3" href="#AnnInclude">AnnInclude</a>:             Array of fileecho masks that will be announced in
+                          this annAreaTag. 
+<li><a accesskey="4" href="#AnnExclude">AnnExclude</a>:             Array of filearea masks that won't be announced in
+                          this annAreaTag. 
+<li><a accesskey="5" href="#AnnTo">AnnTo</a>:                  Announcement message destination name. 
+<li><a accesskey="6" href="#AnnFrom">AnnFrom</a>:                Announcement message originator name. 
+<li><a accesskey="7" href="#AnnSubj">AnnSubj</a>:                Announcement message subject. 
+<li><a accesskey="8" href="#AnnAddrTo">AnnAddrTo</a>:              Announcement message destination address (use for
+                          netmail area only). 
+<li><a accesskey="9" href="#AnnAddrFrom">AnnAddrFrom</a>:            Announcement message originator address. 
+<li><a href="#AnnOrigin">AnnOrigin</a>:              Origin line in announcement message. 
+<li><a href="#AnnMessFlags">AnnMessFlags</a>:           Announcement message attributes (k/s loc hld ...). 
+<li><a href="#AnnFileRFrom">AnnFileRFrom</a>:           Show in announcement: address of system which file
+                          was received from. 
+<li><a href="#AnnFileOrigin">AnnFileOrigin</a>:          Show in announcement: address of system who has
+                          hatched file. 
+<li><a href="#Announcements-example">Announcements example</a>:  Example for understanding announcements (from real
+                          config). 
+</ul>
+
+<div class="node">
+<p><hr>
+<a name="AnnounceSpool"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnAreaTag">AnnAreaTag</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Announce-System">Announce System</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.1 AnnounceSpool</h4>
+
+<p><a name="index-AnnounceSpool-41"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnounceSpool &lt;path&gt;</code>
+<br><dt>Example:<dd><code>AnnounceSpool /var/spool/fido/announce</code>
+</dl>
+
+   <p>Directory for accumulating report information.
+
+   <p>This statement cannot be repeated.
+
+<div class="node">
+<p><hr>
+<a name="AnnAreaTag"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnInclude">AnnInclude</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnounceSpool">AnnounceSpool</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.2 AnnAreaTag</h4>
+
+<p><a name="index-AnnAreaTag-42"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnAreaTag &lt;AREATAG|@filename&gt;</code>
+<br><dt>Example:<dd><code>AnnAreaTag local.announce</code>
+</dl>
+
+   <p>Begins new announcement definition section. &lt;AREATAG&gt; is name of an area
+where annoucement will be placed to; &lt;@filename&gt; is filename with leading
+'@' where annoucement will be placed to.
+
+   <p>This statement can be repeated.
+
+<div class="node">
+<p><hr>
+<a name="AnnInclude"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnExclude">AnnExclude</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnAreaTag">AnnAreaTag</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.3 AnnInclude</h4>
+
+<p><a name="index-AnnInclude-43"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnInclude &lt;fileecho mask list&gt;</code>
+<br><dt>Example:<dd><code>AnnInclude *</code>
+</dl>
+
+   <p>Array of fileecho names|masks that will be announced in this annAreaTag. Default: all fileareas.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnExclude"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnTo">AnnTo</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnInclude">AnnInclude</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.4 AnnExclude</h4>
+
+<p><a name="index-AnnExclude-44"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnExclude &lt;fileecho mask list&gt;</code>
+<br><dt>Example:<dd><code>AnnExclude aftnged</code>
+</dl>
+
+   <p>Array of filearea names|masks that won't be announced in this annAreaTag
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnTo"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnFrom">AnnFrom</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnExclude">AnnExclude</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.5 AnnTo</h4>
+
+<p><a name="index-AnnTo-45"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnTo &lt;string&gt;</code>
+<br><dt>Example:<dd><code>AnnTo All</code>
+</dl>
+
+   <p>Announcement message destination name.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnFrom"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnSubj">AnnSubj</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnTo">AnnTo</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.6 AnnFrom</h4>
+
+<p><a name="index-AnnFrom-46"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnFrom &lt;string&gt;</code>
+<br><dt>Example:<dd><code>AnnFrom Announce Robot</code>
+</dl>
+
+   <p>Announcement message originator name.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnSubj"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnAddrTo">AnnAddrTo</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnFrom">AnnFrom</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.7 AnnSubj</h4>
+
+<p><a name="index-AnnSubj-47"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnSubj &lt;string&gt;</code>
+<br><dt>Example:<dd><code>AnnSubj New files arrived</code>
+</dl>
+
+   <p>Announcement message subject.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnAddrTo"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnAddrFrom">AnnAddrFrom</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnSubj">AnnSubj</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.8 AnnAddrTo</h4>
+
+<p><a name="index-AnnAddrTo-48"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnAddrTo &lt;address&gt;</code>
+<br><dt>Example:<dd><code>AnnAddrTo 2:5097/31.1</code>
+</dl>
+
+   <p>Announcement message destination address (use for netmail area).
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnAddrFrom"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnOrigin">AnnOrigin</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnAddrTo">AnnAddrTo</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.9 AnnAddrFrom</h4>
+
+<p><a name="index-AnnAddrFrom-49"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnAddrFrom &lt;address&gt;</code>
+<br><dt>Example:<dd><code>AnnAddrFrom 2:5097/31</code>
+</dl>
+
+   <p>Announcement message originator address.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnOrigin"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnMessFlags">AnnMessFlags</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnAddrFrom">AnnAddrFrom</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.10 AnnOrigin</h4>
+
+<p><a name="index-AnnOrigin-50"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnOrigin &lt;string&gt;</code>
+<br><dt>Example:<dd><code>AnnOrigin News files!</code>
+</dl>
+
+   <p>Origin line in announcement message.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnMessFlags"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnFileRFrom">AnnFileRFrom</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnOrigin">AnnOrigin</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.11 AnnMessFlags</h4>
+
+<p><a name="index-AnnMessFlags-51"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnMessFlags &lt;string&gt;</code>
+<br><dt>Example:<dd><code>AnnMessFlags loc hld</code>
+</dl>
+
+   <p>Announcement message flags (k/s loc hld ...).
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnFileRFrom"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#AnnFileOrigin">AnnFileOrigin</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnMessFlags">AnnMessFlags</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.12 AnnFileRFrom</h4>
+
+<p><a name="index-AnnFileRFrom-52"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnFileRFrom &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>AnnFileRFrom on</code>
+</dl>
+
+   <p>Show in announcement: address of system which file was received from.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="AnnFileOrigin"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Announcements-example">Announcements example</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnFileRFrom">AnnFileRFrom</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.13 AnnFileOrigin</h4>
+
+<p><a name="index-AnnFileOrigin-53"></a>
+     <dl>
+<dt>Syntax:<dd><code>AnnFileOrigin &lt;on|off&gt;</code>
+<br><dt>Example:<dd><code>AnnFileOrigin on</code>
+</dl>
+
+   <p>Show in announcement: address of system that has hatched file.
+
+   <p>This statement can be repeated only for different AnnAreaTag.
+
+<div class="node">
+<p><hr>
+<a name="Announcements-example"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Common-husky-keywords">Common husky keywords</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#AnnFileOrigin">AnnFileOrigin</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Announce-System">Announce System</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.14 Announcements example</h4>
+
+<p><a name="index-Announcements-example-54"></a>
+The following text is taken from a real config file.
+
+<pre class="example">     #= Announcements definitions =====================================
+     AnnounceSpool   E:\FIDO\EXCH\report
+     
+     # report all arrived files to file e:\fido\rep.txt
+     AnnAreaTag      @e:\fido\rep.txt
+     AnnFileOrigin   on
+     
+     # report into area 'seumbieky.news'
+     # files posted to 'union.*' group of fileechos
+     AnnAreaTag      seumbieky.news
+     AnnInclude      union.*
+     AnnSubj         New mp3's arrives
+     AnnTo           United mp3 fans
+     AnnFrom         Fullfeed Distribution Site
+     AnnOrigin       *** seumbieky forever ***
+     AnnFileOrigin   on
+     AnnFileRfrom    on
+     
+     # report 'uue.*' group of fileechos into area 'seumbieky.news'
+     AnnAreaTag      seumbieky.news
+     AnnInclude      uue.*
+     
+     # report into area 'seumbieky.news'
+     # all other exept of 'uue.* and union.*' groups
+     AnnAreaTag      seumbieky.news
+     AnnExclude      uue.* union.*
+     
+     # report via netmail to defined address
+     AnnAreaTag      netmail
+     AnnInclude      union.*
+     AnnSubj         New mp3's arrives
+     AnnTo           Max Inda Houze
+     Annaddrto       2:464/108
+     AnnFrom         Fullfeed Distribution Site
+     Annaddrfrom     2:464/910.108
+     AnnOrigin       *** seumbieky forever ***
+     AnnMessFlags    k/s loc hld
+     AnnFileOrigin   on
+     AnnFileRfrom    on
+     #= Announces definitions ends ================================
+</pre>
+   <div class="node">
+<p><hr>
+<a name="Common-husky-keywords"></a>Next:&nbsp;<a rel="next" accesskey="n" href="#Keyword-Index">Keyword Index</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Announcements-example">Announcements example</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Configuration-Reference">Configuration Reference</a>
+<br>
+</div>
+
+<h4 class="subsection">4.4.15 Common husky keywords</h4>
+
+<p><a name="index-Common-husky-keywords-55"></a>
+List of keywords used in many husky programs. For details see fidoconfig manual.
+
+     <dl>
+<dt><code>BBSArea</code><br><dt><code>LogLevels</code><dd>... 
+</dl>
+
+<div class="node">
+<p><hr>
+<a name="Keyword-Index"></a>Previous:&nbsp;<a rel="previous" accesskey="p" href="#Common-husky-keywords">Common husky keywords</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+<br>
+</div>
+
+<h2 class="appendix">Appendix A Configuration File Keyword Index</h2>
+
+<ul class="index-fn" compact>
+<li><a href="#index-addDLC-12"><code>addDLC</code></a>: <a href="#addDLC">addDLC</a></li>
+<li><a href="#index-AnnAddrFrom-49"><code>AnnAddrFrom</code></a>: <a href="#AnnAddrFrom">AnnAddrFrom</a></li>
+<li><a href="#index-AnnAddrTo-48"><code>AnnAddrTo</code></a>: <a href="#AnnAddrTo">AnnAddrTo</a></li>
+<li><a href="#index-AnnAreaTag-42"><code>AnnAreaTag</code></a>: <a href="#AnnAreaTag">AnnAreaTag</a></li>
+<li><a href="#index-AnnExclude-44"><code>AnnExclude</code></a>: <a href="#AnnExclude">AnnExclude</a></li>
+<li><a href="#index-AnnFileOrigin-53"><code>AnnFileOrigin</code></a>: <a href="#AnnFileOrigin">AnnFileOrigin</a></li>
+<li><a href="#index-AnnFileRFrom-52"><code>AnnFileRFrom</code></a>: <a href="#AnnFileRFrom">AnnFileRFrom</a></li>
+<li><a href="#index-AnnFrom-46"><code>AnnFrom</code></a>: <a href="#AnnFrom">AnnFrom</a></li>
+<li><a href="#index-AnnInclude-43"><code>AnnInclude</code></a>: <a href="#AnnInclude">AnnInclude</a></li>
+<li><a href="#index-AnnMessFlags-51"><code>AnnMessFlags</code></a>: <a href="#AnnMessFlags">AnnMessFlags</a></li>
+<li><a href="#index-AnnOrigin-50"><code>AnnOrigin</code></a>: <a href="#AnnOrigin">AnnOrigin</a></li>
+<li><a href="#index-Announcements-example-54"><code>Announcements example</code></a>: <a href="#Announcements-example">Announcements example</a></li>
+<li><a href="#index-AnnounceSpool-41"><code>AnnounceSpool</code></a>: <a href="#AnnounceSpool">AnnounceSpool</a></li>
+<li><a href="#index-AnnSubj-47"><code>AnnSubj</code></a>: <a href="#AnnSubj">AnnSubj</a></li>
+<li><a href="#index-AnnTo-45"><code>AnnTo</code></a>: <a href="#AnnTo">AnnTo</a></li>
+<li><a href="#index-autoFileCreate-27"><code>autoFileCreate</code></a>: <a href="#autoFileCreate">autoFileCreate</a></li>
+<li><a href="#index-AutoFileCreateDefaults-29"><code>AutoFileCreateDefaults</code></a>: <a href="#AutoFileCreateDefaults">AutoFileCreateDefaults</a></li>
+<li><a href="#index-AutoFileCreateFile-28"><code>AutoFileCreateFile</code></a>: <a href="#AutoFileCreateFile">AutoFileCreateFile</a></li>
+<li><a href="#index-AutoFileCreateFlag-21"><code>AutoFileCreateFlag</code></a>: <a href="#AutoFileCreateFlag">AutoFileCreateFlag</a></li>
+<li><a href="#index-AutoFileCreateSubdirs-30"><code>AutoFileCreateSubdirs</code></a>: <a href="#AutoFileCreateSubdirs">AutoFileCreateSubdirs</a></li>
+<li><a href="#index-BBSarea-17"><code>BBSarea</code></a>: <a href="#BBSarea">BBSarea</a></li>
+<li><a href="#index-BusyFileDir-9"><code>BusyFileDir</code></a>: <a href="#BusyFileDir">BusyFileDir</a></li>
+<li><a href="#index-Common-husky-keywords-55"><code>Common husky keywords</code></a>: <a href="#Common-husky-keywords">Common husky keywords</a></li>
+<li><a href="#index-ConvertLongNames-10"><code>ConvertLongNames</code></a>: <a href="#ConvertLongNames">ConvertLongNames</a></li>
+<li><a href="#index-ConvertShortNames-11"><code>ConvertShortNames</code></a>: <a href="#ConvertShortNames">ConvertShortNames</a></li>
+<li><a href="#index-delNotReceivedTIC-31"><code>delNotReceivedTIC</code></a>: <a href="#delNotReceivedTIC">delNotReceivedTIC</a></li>
+<li><a href="#index-DLCDigits-13"><code>DLCDigits</code></a>: <a href="#DLCDigits">DLCDigits</a></li>
+<li><a href="#index-ExecOnFile-6"><code>ExecOnFile</code></a>: <a href="#ExecOnFile">ExecOnFile</a></li>
+<li><a href="#index-FileArea-40"><code>FileArea</code></a>: <a href="#FileArea">FileArea</a></li>
+<li><a href="#index-FileAreaBaseDir-1"><code>FileAreaBaseDir</code></a>: <a href="#FileAreaBaseDir">FileAreaBaseDir</a></li>
+<li><a href="#index-FileAreaCreatePerms-19"><code>FileAreaCreatePerms</code></a>: <a href="#FileAreaCreatePerms">FileAreaCreatePerms</a></li>
+<li><a href="#index-fileAreaDefaults-24"><code>fileAreaDefaults</code></a>: <a href="#fileAreaDefaults">fileAreaDefaults</a></li>
+<li><a href="#index-fileDescName-18"><code>fileDescName</code></a>: <a href="#fileDescName">fileDescName</a></li>
+<li><a href="#index-FileDescPos-3"><code>FileDescPos</code></a>: <a href="#FileDescPos">FileDescPos</a></li>
+<li><a href="#index-fileEchoFlavour-23"><code>fileEchoFlavour</code></a>: <a href="#fileEchoFlavour">fileEchoFlavour</a></li>
+<li><a href="#index-FileFixEcho-38"><code>FileFixEcho</code></a>: <a href="#FileFix">FileFix</a></li>
+<li><a href="#index-FileFixEchoLimit-39"><code>FileFixEchoLimit</code></a>: <a href="#FileFixEchoLimit">FileFixEchoLimit</a></li>
+<li><a href="#index-FileFixFromName-20"><code>FileFixFromName</code></a>: <a href="#FileFixFromName">FileFixFromName</a></li>
+<li><a href="#index-FileFixFSC87Subset-32"><code>FileFixFSC87Subset</code></a>: <a href="#FileFixFSC87Subset">FileFixFSC87Subset</a></li>
+<li><a href="#index-FileFixHelp-5"><code>FileFixHelp</code></a>: <a href="#FileFixHelp">FileFixHelp</a></li>
+<li><a href="#index-filefixKillRequests-15"><code>filefixKillRequests</code></a>: <a href="#filefixKillRequests">filefixKillRequests</a></li>
+<li><a href="#index-FileFixNames-22"><code>FileFixNames</code></a>: <a href="#FileFixNames">FileFixNames</a></li>
+<li><a href="#index-filefixReportsAttr-16"><code>filefixReportsAttr</code></a>: <a href="#filefixReportsAttr">filefixReportsAttr</a></li>
+<li><a href="#index-fileLDescString-4"><code>fileLDescString</code></a>: <a href="#fileLDescString">fileLDescString</a></li>
+<li><a href="#index-ForwardFilePriority-36"><code>ForwardFilePriority</code></a>: <a href="#ForwardFilePriority">ForwardFilePriority</a></li>
+<li><a href="#index-ForwardFileRequestFile-37"><code>ForwardFileRequestFile</code></a>: <a href="#ForwardFileRequestFile">ForwardFileRequestFile</a></li>
+<li><a href="#index-ForwardFileRequests-35"><code>ForwardFileRequests</code></a>: <a href="#ForwardFileRequests">ForwardFileRequests</a></li>
+<li><a href="#index-LinkFileBaseDir-34"><code>LinkFileBaseDir</code></a>: <a href="#LinkFileBaseDir">LinkFileBaseDir</a></li>
+<li><a href="#index-MaxTicLineLength-8"><code>MaxTicLineLength</code></a>: <a href="#MaxTicLineLength">MaxTicLineLength</a></li>
+<li><a href="#index-noTIC-26"><code>noTIC</code></a>: <a href="#noTIC">noTIC</a></li>
+<li><a href="#index-PassFileAreaDir-2"><code>PassFileAreaDir</code></a>: <a href="#PassFileAreaDir">PassFileAreaDir</a></li>
+<li><a href="#index-RemoteFileRobotName-25"><code>RemoteFileRobotName</code></a>: <a href="#RemoteFileRobotName">RemoteFileRobotName</a></li>
+<li><a href="#index-SaveTic-7"><code>SaveTic</code></a>: <a href="#SaveTic">SaveTic</a></li>
+<li><a href="#index-TickerPackToBox-33"><code>TickerPackToBox</code></a>: <a href="#TickerPackToBox">TickerPackToBox</a></li>
+<li><a href="#index-ticOutbound-14"><code>ticOutbound</code></a>: <a href="#ticOutbound">ticOutbound</a></li>
+</ul></body></html>
+

@@ -1,0 +1,1 @@
+SET FIDOCONFIG=C:\usr\fidoconf\config.cfg

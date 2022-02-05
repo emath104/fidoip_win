@@ -1,0 +1,186 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of HPTKILL</TITLE>
+</HEAD><BODY>
+<H1>HPTKILL</H1>
+Section: User Commands  (1)<BR>Updated: hptkill (v1.10)<BR><A HREF="#index">Index</A>
+<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+hptkill - Areas killing utility
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSYS</H2>
+
+<DL COMPACT>
+<DT><B>hptkill</B>
+
+<DD>
+<B>[ -c config ]</B>
+
+<B>[ -1 ]</B>
+
+<B>[ -n ]</B>
+
+<B>[ -a ]</B>
+
+<B>[ -d ]</B>
+
+<B>[ -s ]</B>
+
+<BR>
+
+<B>[ -f file ]</B>
+
+<B>[ -k ]</B>
+
+<B>[ -p ]</B>
+
+<B>[ -pp ]</B>
+
+<B>[ -y ]</B>
+
+<B>[ -yp ]</B>
+
+<BR>
+
+<B>[ -o days ]</B>
+
+<B>[ -O days ]</B>
+
+<B>[ -l file ]</B>
+
+<B>[ -C ]</B>
+
+<BR>
+
+<B>[areaNameMask ...]</B>
+
+
+</DL>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+hptkill is utility for killing echoareas from config and send unsubscribe
+message to all links for this area. Also it can search and kill passthrough
+areas with one link.
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<DL COMPACT>
+<DT><B>-c config</B>
+
+<DD>
+specify alternate config file
+<DT><B>-1</B>
+
+<DD>
+send unsubscribe message to first link only
+<DT><B>-n</B>
+
+<DD>
+don't send unsubscribe message
+<DT><B>-a</B>
+
+<DD>
+send unsubscribe message all subscribed links
+<DT><B>-d</B>
+
+<DD>
+delete area from config
+<DT><B>-s</B>
+
+<DD>
+save (don't erase) message &amp; dupe bases
+<DT><B>-f file</B>
+
+<DD>
+read areas list from file in addition to args
+<DT><B>-f -</B>
+
+<DD>
+read areas list from stdin in addition to args
+<DT><B>-k</B>
+
+<DD>
+set Kill/Sent attribute to messages for links
+<DT><B>-p</B>
+
+<DD>
+find &amp; kill passthrough echoareas with &lt;=1 links
+<DT><B>-pp</B>
+
+<DD>
+same as -p including paused links
+<DT><B>-y</B>
+
+<DD>
+find &amp; kill ANY echoareas with &lt;=1 links
+<DT><B>-yp</B>
+
+<DD>
+same as -y including paused links
+<DT><B>-o days</B>
+
+<DD>
+kill passthrough area with dupebase older 'days' days
+<DT><B>-O days</B>
+
+<DD>
+same as -o but kill areas without dupebases
+<DT><B>-l file</B>
+
+<DD>
+with -o/-O write to file list of areas without dupebase
+<DT><B>-C</B>
+
+<DD>
+create empty dupebase if it doesn't exist
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>DEFAULT SETTINGS:</H2>
+
+send unsubscribe message to subcribed nodes only
+<BR>
+
+leave config unchanged
+<BR>
+
+erase message &amp; dupe bases
+<A NAME="lbAG">&nbsp;</A>
+<H2>ENVIROMENT</H2>
+
+<B>FIDOCONFIG</B>
+
+<P>
+
+path/filename of the husky configuration file
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Serguei Revtov 2:5021/11.10 or/and 2:5021/19.1
+<BR>
+
+This manual page was written by Pavel Andreew &lt;<A HREF="mailto:pavel@collage.etel.ru">pavel@collage.etel.ru</A>&gt;
+for the Debian GNU/Linux system (but may be used by others).
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSYS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">DEFAULT SETTINGS:</A><DD>
+<DT><A HREF="#lbAG">ENVIROMENT</A><DD>
+<DT><A HREF="#lbAH">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time:  GMT, January 05, 2004
+</BODY>
+</HTML>
