@@ -26,6 +26,7 @@
 @Forward* Area : @OEcho (@ODesc)
 @Forward* From : @OName, @OAddr (@ODate @OTime)
 @Forward* To   : @DName
+@Forward* Link : @OFGHIUrl
 @Forward* Subj : @Subject
 @Forward=============================================================================
 ;
@@ -56,19 +57,19 @@
 ;   ----------------------------------------------------------------------
 ;   If we are replying without quoting, add these lines.
 ;   ----------------------------------------------------------------------
-@ReplyОтвет на письмо за <@ODate>, от @OName{меня}{тебя} @DName{мне}{тебе}:
+@ReplyОтвет на письмо за <@ODate>, от @OName{меня}{тебя} @DName{мне}{тебе}, в сообщении по ссылке @OFGHIUrl:
 @Reply@Position
 ;
 ;   ----------------------------------------------------------------------
 ;   If we are comment-replying, add these lines.
 ;   ----------------------------------------------------------------------
-@Comment@ODate @OTime, @OName{я писал}{ты писал(а)} @DName{мне}{тебе}:
+@Comment@ODate @OTime, @OName{я писал}{ты писал(а)} @DName{мне}{тебе}, в сообщении по ссылке @OFGHIUrl:
 @Comment@Position
 ;
 ;   ----------------------------------------------------------------------
 ;   If we are quote-replying, add these lines.
 ;   ----------------------------------------------------------------------
-@Quoted@ODate @OTime, @OName{я писал}{ты писал(а)} @DName{мне}{тебе}:
+@Quoted@ODate @OTime, @OName{я писал}{ты писал(а)} @DName{мне}{тебе}, в сообщении по ссылке @OFGHIUrl:
 @Quoted@Position
 ;
 ;   ----------------------------------------------------------------------

@@ -9,8 +9,10 @@ LogLevels 456789
 
 Address 2:5020/YYY.ZZZ
 
-Unpack "\usr\bin\pkunzip -njCL $a -d $p $f" 0 504b0304
-Pack  zip \usr\bin\pkzip $a $f
+Unpack  "\usr\bin\unzip  -j -Loqq $a -d $p" 0 504b0304
+Pack  zip \usr\bin\zip -9 -j -q $a $f
+#Unpack "\usr\bin\pkunzip -njCL $a -d $p $f" 0 504b0304
+#Pack  zip \usr\bin\pkzip $a $f
 Unpack  "\usr\bin\unrar e -y -c- -inul $a $p $f"   0 52617221
 
 Link Kirill Temnenkov

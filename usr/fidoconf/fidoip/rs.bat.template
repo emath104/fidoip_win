@@ -6,5 +6,4 @@ call params.bat
 \usr\bin\hpt.exe toss
 \usr\bin\htick.exe toss
 \usr\bin\htick.exe announce
-\usr\bin\sqpack.exe *
 \usr\bin\hpt.exe link *

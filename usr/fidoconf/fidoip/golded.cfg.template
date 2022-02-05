@@ -2,7 +2,7 @@ CTRLINFONET   TEARLINE, ORIGIN
 CTRLINFOECHO  TEARLINE, ORIGIN
 CTRLINFOLOCAL TEARLINE, ORIGIN
 
-TEARLINE -А! И вл І§•бм. И г¶• б гва† †ѓ•Ђмб®≠ ¶асим! ПаЃҐЃа≠л©.
+TEARLINE -А Ґл °л ®б™гббвҐЃђ І†≠пЂ®бм. ПЃнІ®•©, звЃ Ђ®?
 
 
 INVALIDATE Seenby   "SEEN-BY"       "SEEN+BY"
@@ -36,8 +36,8 @@ EDITCOMPLETION "Н" "H" ;§Ђп І†ђ•≠л Ґ аЃ§≠Ѓђ а•§†™вЃа• (ѓ•аҐ†п H агбб™†п)
 EDITSOFTCRXLAT H       ;§Ђп І†ђ•≠л ѓа® ®ђѓЃав®аЃҐ†≠®®
 DISPSOFTCR Yes
 
-IMPORTBEGIN >ƒƒƒЌЌЌ Кгвм Ѓ≠ "@file" ЌЌЌƒƒƒ 
-IMPORTEND >ƒƒƒЌЌЌ Кгвм Ѓдд "@file" ЌЌЌƒƒƒ 
+IMPORTBEGIN >---=== Кгвм Ѓ≠ "@file" ===--- 
+IMPORTEND >---=== Кгвм Ѓдд "@file" ===--- 
 
 AddressMacro afix,AreaFix,2:5020/828,"12345678",K/S,Dir
 
@@ -46,20 +46,20 @@ UuDecodePath    \home\fido\uudecode
 OutPutFile      \home\fido\outfile
 TemplatePath	\usr\golded+
 include         \usr\golded+\gedcolor.cfg
-; Ќе приветcтвовать роботов
+; =е приветcтвовать роботов
 RobotName AreaFix
 RobotName AllFix
 RobotName T-fix
 RobotName FAQServer
-; ƒобавление всех адресатов, которым пишите во всех област х в алресную
-; книгу /usr/local/etc/golded+/golduser.lst
+; -обавление всех адресатов, которvм пишите во всех област€х в адресну≥ книгу 
+; /usr/local/etc/golded+/golduser.lst
 AddressBookAdd  Always
-; ƒл  занесени  в  адресную книгу автора сообщени  вручную нажмите Ctrl-B
+; -л€ занесени€  в  адресну≥ книгу автора сообени€  вручну≥ нажмите Ctrl-B
 ^B      READAddressBookAdd
-; ѕросмотр адресной книги - Alt-F10.
+; ≥росмотр адресной книги - Alt-F10.
 @F10    READUserBase
 NodelistWarn    No
-ORIGIN "ПЃЂ•з®в• ѓ•з•≠м"
+ORIGIN "Мга†Ґм®≠лђ бѓ®авЃђ бЃҐ•вго ≠†в•а•вм"
 ;TAGLINE @random.txt
 TwitName Bad User
 TwitName Urgy Spammer
@@ -83,7 +83,7 @@ AREAFILEGROUPS YES
 TAGLINESUPPORT Yes
 ;TAGLINE @random.txt   
 
-VIEWHIDDEN YES
+;VIEWHIDDEN YES
 VIEWKLUDGE NO
 
 COLOR READER KLUDHIDD   Green     on Black
@@ -126,4 +126,15 @@ HighlightUnread Yes
 username Vasiliy Pampasov
 
 Address 2:5020/YYY.ZZZ
+
+PeekURLOptions FromTop
+URLHANDLER start "" @url
+DispHdrLocation	Yes
+DispHdrFGHIUrl  SHORT
+MsgListHeader   1
+URLBrackets	Yes
+AreaDef FGHIGET  "ПЃЂгз•≠≠Ѓ• б fghi.pp.ru" 0 LOCAL  OPUS \home\fido\fghigetdir
+FGHIGetHandler wget http://fghi.pp.ru/get?@fghiurl -O @ofile -U "GoldED-NSF Downloader"
+FGHIReverseSearch YES
+MsgListFirstFGHI NO
 
