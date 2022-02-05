@@ -1,0 +1,347 @@
+'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'   This file is part of fidoip. It is free software and it is covered
+'   by the GNU general public license. See the file LICENSE for details. */
+
+' Script adds point to node configuration files
+Option Explicit
+
+
+' Эти 5 констант нужно поправить! You need change these 5 constants!
+'---------------------------------
+const pointFullName      = "Ivan Papuasov"
+const pointNumber        = ".777"
+const pointPassword      = "12345678"
+const pointStationName   = "StationNameX"
+const pointLocation      = "Moscow"
+'---------------------------------
+
+
+
+
+Dim PointNumberTrim, FTNAddress, ListFTN, ListFTN1, ShorNodeName, MyFullName, MySysName
+
+PointNumberTrim = Trim(pointNumber)
+
+FTNAddress = "2:5020/788"
+ShorNodeName = "5020-788"
+ListFTN = "2:5020/788.333 2:5020/788.1"
+ListFTN1 = ListFTN & " " & FTNAddress & pointNumber & " "
+MySysName = "MyStation"
+MyFullName = "Vasiliy Pampasov"
+
+Dim TestName, TestFTNAddress, re
+Set re = new regexp  
+re.IgnoreCase = false
+re.Global = True
+Dim arrFileLines()
+
+TestName = pointFullName & " "
+TestFTNAddress = FTNAddress & pointNumber & " "
+
+Const ForReading = 1
+
+Dim objFSO, objTextFile, strText, strTextNew, strTextAppend, objOutputFile, i, l, FoundStr, FileToAdd, FileToAddTemplate
+
+FileToAdd = "\usr\fidoconf\point.lst"
+FileToAddTemplate = "\usr\fidoconf\fidoip\node\point.lst.template-node"
+
+i = 0
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, 1)
+Do Until objTextFile.AtEndOfStream
+     Redim Preserve arrFileLines(i)
+     arrFileLines(i) = objTextFile.ReadLine
+     i = i + 1
+Loop
+objTextFile.Close
+For l = Ubound(arrFileLines) to LBound(arrFileLines) Step -1
+
+re.Pattern = TestName
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+re.Pattern = TestFTNAddress
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+
+Next
+
+
+if FoundStr <> "Pattern Found" Then
+
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile(FileToAddTemplate, ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,".POINT-NUMBER",PointNumberTrim)
+strTextNew = Replace(strTextNew,"MYNODE-ADDRESS",FTNAddress)
+strTextNew = Replace(strTextNew,"POINT-FULL-NAME",pointFullName)
+strTextNew = Replace(strTextNew,"POINT-PASSWORD",pointPassword)
+strTextNew = Replace(strTextNew,"POINT-STATION-NAME",pointStationName)
+strTextNew = Replace(strTextNew,"POINT-LOCATION",pointLocation)
+strTextNew = Replace(strTextNew,"SHORTNODE-NAME",ShorNodeName)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile(FileToAdd)
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\binkd.cfg", ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\fidoip\node\binkpoint.template-node", ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,".POINT-NUMBER",PointNumberTrim)
+strTextNew = Replace(strTextNew,"MYNODE-ADDRESS",FTNAddress)
+strTextNew = Replace(strTextNew,"POINT-FULL-NAME",pointFullName)
+strTextNew = Replace(strTextNew,"POINT-PASSWORD",pointPassword)
+strTextNew = Replace(strTextNew,"POINT-STATION-NAME",pointStationName)
+strTextNew = Replace(strTextNew,"POINT-LOCATION",pointLocation)
+strTextNew = Replace(strTextNew,"SHORTNODE-NAME",ShorNodeName)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("\usr\fidoconf\binkd.cfg")
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\readonly.lst", ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\fidoip\node\readonly-point.lst.template-node", ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,".POINT-NUMBER",PointNumberTrim)
+strTextNew = Replace(strTextNew,"MYNODE-ADDRESS",FTNAddress)
+strTextNew = Replace(strTextNew,"POINT-FULL-NAME",pointFullName)
+strTextNew = Replace(strTextNew,"POINT-PASSWORD",pointPassword)
+strTextNew = Replace(strTextNew,"POINT-STATION-NAME",pointStationName)
+strTextNew = Replace(strTextNew,"POINT-LOCATION",pointLocation)
+strTextNew = Replace(strTextNew,"SHORTNODE-NAME",ShorNodeName)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("\usr\fidoconf\readonly.lst")
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+Const ForWriting = 2
+
+ Dim rFile
+ Set rFile = objFSO.OpenTextFile("\usr\fidoconf\config.cfg",ForReading)
+ Dim Text
+ Text = rFile.ReadAll
+ Text = replace(Text,ListFTN,ListFTN1)
+
+ Dim wFile 
+ Set wFile = objFSO.OpenTextFile("\usr\fidoconf\config.cfg",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+
+Dim FSO
+
+Set FSO = CreateObject("Scripting.FileSystemObject")
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\test.template-node", "\home\fido\test.template-node"
+FSO.CopyFile "\usr\fidoconf\fidoip\node\announce.template-node", "\home\fido\announce.template-node"
+FSO.CopyFile "\usr\fidoconf\fidoip\node\welcome1.template-node", "\home\fido\welcome1.template-node"
+FSO.CopyFile "\usr\fidoconf\fidoip\node\welcome.template-node", "\home\fido\welcome.template-node"
+
+
+
+ Set rFile = FSO.OpenTextFile("\home\fido\test.template-node",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text,".POINT-NUMBER",PointNumberTrim)
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"POINT-NAME",pointFullName)
+Text = Replace(Text,"POINT-FULL-NAME",pointFullName)
+Text = Replace(Text,"POINT-PASSWORD",pointPassword)
+Text = Replace(Text,"POINT-STATION-NAME",pointStationName)
+Text = Replace(Text,"POINT-LOCATION",pointLocation)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"ECHO-TEST-",ShorNodeName)
+Text = Replace(Text,"NAME-LOCAL",".TEST")
+Text = Replace(Text,"SYSTEM-OPERATOR-NAME",MyFullName)
+Text = Replace(Text,"SYSTEM-NAME",MySysName)
+
+
+ Set wFile = FSO.OpenTextFile("\home\fido\test.template-node",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+
+ Set rFile = FSO.OpenTextFile("\home\fido\announce.template-node",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text,".POINT-NUMBER",PointNumberTrim)
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"POINT-NAME",pointFullName)
+Text = Replace(Text,"POINT-FULL-NAME",pointFullName)
+Text = Replace(Text,"POINT-PASSWORD",pointPassword)
+Text = Replace(Text,"POINT-STATION-NAME",pointStationName)
+Text = Replace(Text,"POINT-LOCATION",pointLocation)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"ECHO-TEST-",ShorNodeName)
+Text = Replace(Text,"NAME-LOCAL",".TEST")
+Text = Replace(Text,"SYSTEM-OPERATOR-NAME",MyFullName)
+Text = Replace(Text,"SYSTEM-NAME",MySysName)
+
+
+ Set wFile = FSO.OpenTextFile("\home\fido\announce.template-node",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+
+
+ Set rFile = FSO.OpenTextFile("\home\fido\welcome.template-node",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text,".POINT-NUMBER",PointNumberTrim)
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"POINT-NAME",pointFullName)
+Text = Replace(Text,"POINT-FULL-NAME",pointFullName)
+Text = Replace(Text,"POINT-PASSWORD",pointPassword)
+Text = Replace(Text,"POINT-STATION-NAME",pointStationName)
+Text = Replace(Text,"POINT-LOCATION",pointLocation)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"ECHO-TEST-",ShorNodeName)
+Text = Replace(Text,"NAME-LOCAL",".TEST")
+Text = Replace(Text,"SYSTEM-OPERATOR-NAME",MyFullName)
+Text = Replace(Text,"SYSTEM-NAME",MySysName)
+
+
+ Set wFile = FSO.OpenTextFile("\home\fido\welcome.template-node",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+
+ Set rFile = FSO.OpenTextFile("\home\fido\welcome1.template-node",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text,".POINT-NUMBER",PointNumberTrim)
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"POINT-NAME",pointFullName)
+Text = Replace(Text,"POINT-FULL-NAME",pointFullName)
+Text = Replace(Text,"POINT-PASSWORD",pointPassword)
+Text = Replace(Text,"POINT-STATION-NAME",pointStationName)
+Text = Replace(Text,"POINT-LOCATION",pointLocation)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"ECHO-TEST-",ShorNodeName)
+Text = Replace(Text,"NAME-LOCAL",".TEST")
+Text = Replace(Text,"SYSTEM-OPERATOR-NAME",MyFullName)
+Text = Replace(Text,"SYSTEM-NAME",MySysName)
+
+
+ Set wFile = FSO.OpenTextFile("\home\fido\welcome1.template-node",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+msgbox "Поинт " & pointFullName & "(" & FTNAddress & PointNumberTrim & ") добавлен/Point " & pointFullName & "(" & FTNAddress & PointNumberTrim & ") is added"
+
+DriveLetter = FSO.GetDriveName(FSO.GetAbsolutePathName("\usr\fidoconf\config.cfg"))
+
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\welcome1.bat.template-node", "\usr\bin\welcome1.bat"
+
+ Set rFile = FSO.OpenTextFile("\usr\bin\welcome1.bat",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text,".POINT-NUMBER",PointNumberTrim)
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"POINT-FULL-NAME",pointFullName)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"%DRIVELETTER%",DriveLetter)
+Text = Replace(Text,"SYSTEM-OPERATOR-NAME",MyFullName)
+
+ Set wFile = FSO.OpenTextFile("\usr\bin\welcome1.bat",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+Dim strProgramPath, objShell, DriveLetter
+strProgramPath = "cmd /c \usr\bin\welcome1.bat"
+set objShell = createobject("Wscript.Shell")
+objShell.Run strProgramPath
+
+
+
+
+else
+
+msgbox "Похоже, что адрес " &  TestFTNAddress & " или поинт " & TestName  & " уже добавлены в конфигурационные файлы" & VbCrLf & "It seems that address "  &  TestFTNAddress & " or point " & TestName  & " was already added to config files"
+
+End if

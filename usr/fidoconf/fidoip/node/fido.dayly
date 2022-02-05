@@ -1,0 +1,41 @@
+#!/bin/sh
+# Dayly statistics reports script genetation for fidoip node
+# Run this script dayly by cron at 23:55 each day 
+
+NODENUMBER=`cat /usr/local/etc/binkd.cfg | grep node | grep ".1 - " | sed "s| -.*||g" | sed "s|node ||g" | sed "s|\\..*||g" `
+NODENUMBER1=`echo $NODENUMBER | sed 's|/|\\\/|g'`
+SHORTNODENAME=`echo $NODENUMBER | sed 's|.*:||g' | sed 's|/|-|g'`
+
+/usr/local/bin/binkdstat.pl -d1 >  /home/fido/binkd-dayly.rpt
+/usr/local/bin/hptlogstat.pl 1 -traffic > /home/fido/hpt-dayly.rpt
+/usr/local/bin/st_htick.pl $NUMBERDAYS > /home/fido/htick-dayly.rpt
+echo "               #################################################" > /home/fido/system-dayly.rpt
+echo "               |                Node runs on:                   |" >> /home/fido/system-dayly.rpt
+echo "               #################################################" >> /home/fido/system-dayly.rpt
+iostat >> /home/fido/system-dayly.rpt
+echo " ##############################################################################" >> /home/fido/system-dayly.rpt
+echo " |                              System Uptime:                                |" >> /home/fido/system-dayly.rpt
+echo " ##############################################################################" >> /home/fido/system-dayly.rpt
+uptime >> /home/fido/system-dayly.rpt
+echo >> /home/fido/system-dayly.rpt
+echo " ##############################################################################" >> /home/fido/system-dayly.rpt
+echo " |                              Disk statistics:                              |" >> /home/fido/system-dayly.rpt
+echo " ##############################################################################" >> /home/fido/system-dayly.rpt
+df -h >> /home/fido/system-dayly.rpt
+echo >> /home/fido/system-dayly.rpt
+vmstat -D >> /home/fido/system-dayly.rpt
+echo >> /home/fido/system-dayly.rpt
+echo " ##############################################################################" >> /home/fido/system-dayly.rpt
+echo " |                              Other sysinfo:                                |" >> /home/fido/system-dayly.rpt
+echo " ##############################################################################" >> /home/fido/system-dayly.rpt
+vmstat -a -s >> /home/fido/system-dayly.rpt
+
+echo "Generating dayly statistics of binkd, hpt, htick and system and post it to "$SHORTNODENAME".robots"
+
+export FIDOCONFIG=/usr/local/etc/fido/config 
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Mailer statistic for node "$NODENUMBER"(dayly script job)" -e ""$SHORTNODENAME".robots" -d /home/fido/localinb /home/fido/binkd-dayly.rpt
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Tosser statistic for node "$NODENUMBER"(dayly script job)" -e ""$SHORTNODENAME".robots" -d /home/fido/localinb /home/fido/hpt-dayly.rpt
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Files statistic for node "$NODENUMBER"(dayly script job)" -e ""$SHORTNODENAME".robots" -d /home/fido/localinb /home/fido/htick-dayly.rpt
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "System statistic for node "$NODENUMBER"(dayly script job)" -e ""$SHORTNODENAME".robots" -d /home/fido/localinb /home/fido/system-dayly.rpt
+
+toss

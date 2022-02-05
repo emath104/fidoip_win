@@ -1,0 +1,104 @@
+'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'   This file is part of fidoip. It is free software and it is covered
+'   by the GNU general public license. See the file LICENSE for details. */
+
+' Script add read only for point or link to node configuration files
+Option Explicit
+
+
+' Эти 2 константы нужно поправить! You need change these 2 constants!
+'---------------------------------
+const readOnlyFTNaddress     = "2:5020/788.777"
+const readOnlyEchoName       = "ru.linux.chanick"
+'---------------------------------
+
+Dim readOnlyEchoNameTrim, readOnlyFTNaddressTrim, FTNAddress, ShorNodeName, MyFullName, MySysName
+
+readOnlyFTNaddressTrim = Trim(readOnlyFTNaddress)
+readOnlyEchoNameTrim = Trim(readOnlyEchoName)
+
+
+FTNAddress = "2:5020/788"
+ShorNodeName = "5020-788"
+MySysName = "MyStation"
+MyFullName = "Vasiliy Pampasov"
+
+
+Dim TestName, TestFTNAddress, re
+Set re = new regexp  
+re.IgnoreCase = false
+re.Global = True
+Dim arrFileLines()
+
+TestName = readOnlyFTNaddress & " " & readOnlyEchoNameTrim
+
+
+Const ForReading = 1
+
+Dim objFSO, objTextFile, strText, strTextNew, strTextAppend, objOutputFile, i, l, FoundStr, FileToAdd, FileToAddTemplate
+
+FileToAdd = "\usr\fidoconf\readonly.lst"
+FileToAddTemplate = "\usr\fidoconf\fidoip\node\readonly.template-node"
+
+i = 0
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, 1)
+Do Until objTextFile.AtEndOfStream
+     Redim Preserve arrFileLines(i)
+     arrFileLines(i) = objTextFile.ReadLine
+     i = i + 1
+Loop
+objTextFile.Close
+
+For l = Ubound(arrFileLines) to LBound(arrFileLines) Step -1
+re.Pattern = TestName
+
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+
+Next
+
+
+if FoundStr <> "Pattern Found" Then
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile(FileToAddTemplate, ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,"LINK-ADDRESS",readOnlyFTNaddressTrim)
+strTextNew = Replace(strTextNew,"ECHO-NAME",readOnlyEchoNameTrim)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile(FileToAdd)
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+
+msgbox TestName  & " добавлен в файл \usr\fidoconf\readonly.lst" & VbCrLf &  TestName  & " added to config file \usr\fidoconf\readonly.lst"
+
+
+else
+
+msgbox "Похоже, что адрес " & TestName  & " уже добавлен в файл \usr\fidoconf\readonly.lst" & VbCrLf & "It seems that"  &  TestName  & " was already added to config file \usr\fidoconf\readonly.lst"
+
+End if

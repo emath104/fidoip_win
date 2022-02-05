@@ -1,0 +1,137 @@
+;\usr\golded+\golded.cfg
+CTRLINFONET   TEARLINE, ORIGIN
+CTRLINFOECHO  TEARLINE, ORIGIN
+CTRLINFOLOCAL TEARLINE, ORIGIN
+
+TEARLINE -Ђ ўл Ўл ЁбЄгббвў®¬ § ­п«Ёбм. Џ®н§ЁҐ©, зв® «Ё?
+
+INVALIDATE Seenby   "SEEN-BY"       "SEEN+BY"
+INVALIDATE Tearline "--- "          "-+- "
+INVALIDATE Origin   " * Origin: "   " + Origin: "
+
+NODEPATH \home\fido\nodelist
+
+NODELIST NET5020.NDL          ; NodeList  @FidoNet ZONE 2
+NODELIST PNT5020.NDL           ; PointList @FidoNet 5020
+AREASCAN *
+
+;AREAPATH \home\fido\msgbasedir
+
+TEMPLATE  \usr\golded+\GOLDED.TPL     "Default template"
+
+EDITREPLYRE YES     ; Add "Re:" if there isn't one.
+
+LOADLANGUAGE      \usr\golded+\goldlang.cfg
+
+AREALISTGROUPID YES
+AREALISTSORT YUG
+
+ROBOTNAME AreaFix
+ROBOTNAME AllFix
+ROBOTNAME FileFix
+ROBOTNAME "DM Tic"
+ROBOTNAME SqaFix
+ROBOTNAME Dumb-robot
+UseSoftCRxlat Yes 	;  EDITCOMPLETION "Ќ" "H" ; Для жесткой замены буквы Н, уже не нужно
+EDITSOFTCRXLAT H       ;
+DISPSOFTCR Yes
+
+IMPORTBEGIN >---=== Љгвм ®­ "@file" ===--- 
+IMPORTEND >---=== Љгвм ®дд "@file" ===--- 
+DispHdrDateSet -20 20
+AddressMacro AreaFix,AreaFix,2:5020/XXX,"12345678",K/S,Dir
+AddressMacro FileFix,FileFix,2:5020/XXX,"12345678",K/S,Dir
+LogFile		\home\fido\golded.log
+UuDecodePath    \home\fido\uudecode
+OutPutFile      \home\fido\outfile
+TemplatePath	\usr\golded+
+include         \usr\golded+\gedcolor.cfg
+; Не приветcтвовать роботов
+RobotName AreaFix
+RobotName FileFix
+RobotName T-fix
+RobotName FAQServer
+; заносить адресаты, которым пишите во всех областях в адресную книгу 
+; /usr/local/etc/golded+/golduser.lst
+AddressBookAdd  Always
+; Для занесения  в  адресную книгу автора сообщения  вручную нажмите Ctrl-B
+^B      READAddressBookAdd
+; іросмотр адресной книги - Alt-F10.
+@F10    READUserBase
+NodelistWarn    No
+ORIGIN "Њга ўмЁ­л¬ бЇЁав®¬ б®ўҐвго ­ вҐаҐвм"
+;TAGLINE @random.txt
+TwitName Bad User
+TwitName Urgy Spammer
+TwitMode Skip
+TwitTo Yes
+Invalidate Tearline     "" ""
+Invalidate Origin       "" ""
+ViewQuote       Yes
+AttribsNet      Loc Pvt
+DispMsgSize     Kbytes
+DispAttachSize  Kbytes
+SEMAPHORE EXPORTLIST \home\fido\echotoss.log
+SEMAPHORE IMPORTLIST \home\fido\import.log
+
+AreaFile FidoConfig  \usr\fidoconf\config.cfg
+----------------------------------------------------------------------
+-- RANDOM SYSTEM GROUPS
+
+AREAFILEGROUPS YES
+
+TAGLINESUPPORT Yes
+;TAGLINE @random.txt   
+
+;VIEWHIDDEN YES
+VIEWKLUDGE NO
+
+COLOR READER KLUDHIDD   Green     on Black
+COLOR READER QUOTE2           lgreen    ON BLACK
+
+EDITMENU NO
+
+STYLECODES YES
+COLOR STYLECODE I       LRed     on Black    ; /Italic/
+COLOR STYLECODE U       Green    on Yellow   ; _Underline_
+COLOR STYLECODE B       White    on Black    ; *Bold*
+COLOR STYLECODE BI      White    on Black    ; /*BoldItalic*/
+COLOR STYLECODE BU      White    on Black    ; _*BoldUnderline*_
+COLOR STYLECODE IU      LRed     on Black    ; /_ItalicUnderline_/
+COLOR STYLECODE BIU     White    on Black    ; _/*BoldItalicUnderline*/_
+COLOR STYLECODE R       Black    on Yellow   ; #Reverse#
+COLOR STYLECODE RB      Black    on White    ; *#ReverseBold#*
+COLOR STYLECODE RI      Black    on LRed     ; /#ReverseItalic#/
+COLOR STYLECODE RBI     Black    on White    ; /*#ReverseBoldItalic#*/
+COLOR STYLECODE RU      Yellow   on Green    ; _#ReverseUnderline_#
+COLOR STYLECODE RBU     Black    on White    ; _*#ReverseBoldUnderline#*_
+COLOR STYLECODE RIU     Black    on LRed     ; _/#ReverseItalicUnderline#/_
+COLOR STYLECODE RBIU    Black    on White    ; _/*#ReverseItalicUnderline#*/_
+
+SQUISHSCAN API
+INCLUDE \usr\golded+\goldcmnt.CFG
+
+AddressBookAdd Always
+;DispAutoNext No
+ConfirmFile golded.cfm
+ConfirmResponse  Ask  ; ‘Їа®бЁвм Ї®«м§®ў вҐ«п.
+
+EditInternal Yes
+EDITHARDLINES NO
+;EditMenu Yes
+
+COLOR MENU   UNREAD     YELLOW  ON BLACK
+HighlightUnread Yes
+username Vasiliy Pampasov
+Address 2:5020/YYY.ZZZ
+PeekURLOptions FromTop
+URLHANDLER start "" @url
+DispHdrLocation	Yes
+DispHdrFGHIUrl  SHORT
+MsgListHeader   1
+URLBrackets	Yes
+;AreaDef FGHIGET  "Џ®«гзҐ­­®Ґ б fghi.pp.ru" 0 LOCAL  OPUS \home\fido\fghigetdir
+;FGHIGetHandler wget http://fghi.pp.ru/get?@fghiurl -O @ofile -U "GoldED-NSF Downloader"
+FGHIReverseSearch YES
+MsgListFirstFGHI NO
+

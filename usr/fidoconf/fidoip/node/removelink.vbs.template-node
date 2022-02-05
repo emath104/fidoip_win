@@ -1,0 +1,224 @@
+'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'   This file is part of fidoip. It is free software and it is covered
+'   by the GNU general public license. See the file LICENSE for details. */
+
+' Script remove link from node configuration files
+Option Explicit
+
+
+' Эту константу нужно поправить! You need change this constant!
+'---------------------------------
+const linkFTNaddress     = "2:5020/732"
+'---------------------------------
+
+
+
+
+
+
+
+Dim linkFTNaddressTrim, FTNAddress, ShorNodeName, MyFullName, MySysName
+
+linkFTNaddressTrim = Trim(linkFTNaddress)
+
+FTNAddress = "2:5020/788"
+ShorNodeName = "5020-788"
+MySysName = "MyStation"
+MyFullName = "Vasiliy Pampasov"
+
+
+Const ForReading = 1
+Const ForWriting = 2
+
+Dim linkFTNAddressLen, linkShorNodeNameLen, linkShorNodeName
+linkFTNAddressLen = Len(linkFTNaddressTrim)
+linkShorNodeNameLen = linkFTNAddressLen - 2
+linkShorNodeName = Right(linkFTNaddressTrim,linkShorNodeNameLen) 
+linkShorNodeName = Replace(linkShorNodeName, "/", "-")
+
+
+linkFTNaddressTrim = linkFTNaddressTrim & " "
+
+
+
+Dim TestFTNAddress, re
+Set re = new regexp  
+re.IgnoreCase = false
+re.Global = True
+Dim arrFileLines()
+
+TestFTNAddress = linkFTNaddressTrim
+
+
+Dim objFSO, objTextFile, strText, strTextNew, strTextAppend, objOutputFile, i, l, FoundStr, FileToAdd, FileToAddTemplate
+
+FileToAdd = "\usr\fidoconf\point.lst"
+
+i = 0
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, 1)
+Do Until objTextFile.AtEndOfStream
+     Redim Preserve arrFileLines(i)
+     arrFileLines(i) = objTextFile.ReadLine
+     i = i + 1
+Loop
+objTextFile.Close
+For l = Ubound(arrFileLines) to LBound(arrFileLines) Step -1
+
+re.Pattern = TestFTNAddress
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+Next
+
+
+FileToAdd = "\usr\fidoconf\link.lst"
+
+
+i = 0
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, 1)
+Do Until objTextFile.AtEndOfStream
+     Redim Preserve arrFileLines(i)
+     arrFileLines(i) = objTextFile.ReadLine
+     i = i + 1
+Loop
+objTextFile.Close
+For l = Ubound(arrFileLines) to LBound(arrFileLines) Step -1
+
+re.Pattern = TestFTNAddress
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+
+
+Next
+
+
+
+if FoundStr = "Pattern Found" Then
+
+
+
+
+DeleteLine "\usr\fidoconf\link.lst", linkFTNaddressTrim, 0, 0
+DeleteLine "\usr\fidoconf\point.lst", linkFTNaddressTrim, 0, 0
+DeleteLine "\usr\fidoconf\routing.lst", linkFTNaddressTrim, 0, 0
+DeleteLine "\usr\golded+\macro.cfg", linkFTNaddressTrim, 0, 0
+DeleteLine "\usr\fidoconf\readonly.lst", linkFTNaddressTrim, 0, 0
+DeleteLine "\usr\bin\poll.bat", linkFTNaddressTrim, 0, 0
+DeleteLine "\usr\fidoconf\binkd.cfg", linkFTNaddressTrim, 0, 0
+
+
+
+
+ Dim FSO, rFile
+ Set FSO=CreateObject("Scripting.FileSystemObject")
+ Set rFile = FSO.OpenTextFile("\usr\fidoconf\config.cfg",ForReading)
+ Dim Text
+ Text = rFile.ReadAll
+ Text = replace(Text,linkFTNaddressTrim," ")
+
+ Dim wFile 
+ Set wFile = FSO.OpenTextFile("\usr\fidoconf\config.cfg",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+msgbox "FTN адрес " & linkFTNaddressTrim & " удален / FTN address " & linkFTNaddressTrim & " is removed"
+
+DriveLetter = FSO.GetDriveName(FSO.GetAbsolutePathName("\usr\fidoconf\config.cfg"))
+
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\announcerem.template-node", "\home\fido\announcerem.template-node"
+
+
+ Set rFile = FSO.OpenTextFile("\home\fido\announcerem.template-node",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text,"FTN-ADDRESS",linkFTNaddressTrim)
+
+
+ Set wFile = FSO.OpenTextFile("\home\fido\announcerem.template-node",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\remove.bat.template-node", "\usr\bin\remove.bat"
+
+ Set rFile = FSO.OpenTextFile("\usr\bin\remove.bat",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"FTN-ADDRESS",linkFTNaddress)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"%DRIVELETTER%",DriveLetter)
+
+ Set wFile = FSO.OpenTextFile("\usr\bin\remove.bat",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+Dim strProgramPath, objShell, DriveLetter
+strProgramPath = "cmd /c \usr\bin\remove.bat"
+set objShell = createobject("Wscript.Shell")
+objShell.Run strProgramPath
+
+
+else
+
+msgbox "Похоже, что адрес " &  linkFTNaddressTrim & " отсутвует в конфигурационных файлах" & VbCrLf & "It seems that address "  &  linkFTNaddressTrim & " not exist in config files"
+
+End if
+
+
+
+
+  
+ Function DeleteLine(strFile, strKey, LineNumber, CheckCase)
+ 'Remove line(s) containing text (strKey) from text file (strFile)
+ 'or
+ 'Remove line number from text file (strFile)
+ 'or
+ 'Remove line number if containing text (strKey) from text file (strFile)
+ 'Use strFile = "c:\file.txt"  (Full path to text file)
+ 'Use strKey = "John Doe"      (Lines containing this text string to be deleted)
+ 'Use strKey = ""              (To not use keyword search)
+ 'Use LineNumber = "1"         (Enter specific line number to delete)
+ 'Use LineNumber = "0"         (To ignore line numbers)
+ 'Use CheckCase = "1"          (For case sensitive search )
+ 'Use CheckCase = "0"          (To ignore upper/lower case characters)
+ 
+    Const ForReading=1:Const ForWriting=2
+    Dim objFSO,objFile,Count,strLine,strLineCase,strNewFile
+    Set objFSO=CreateObject("Scripting.FileSystemObject")
+    Set objFile=objFSO.OpenTextFile(strFile,ForReading)
+    Do Until objFile.AtEndOfStream
+       strLine=objFile.Readline
+       If CheckCase=0 then strLineCase=ucase(strLine):strKey=ucase(strKey)
+       If LineNumber=objFile.Line-1 or LineNumber=0 then
+          If instr(strLine,strKey) or instr(strLineCase,strkey) or strKey="" then
+             strNewFile=strNewFile
+          Else
+             strNewFile=strNewFile&strLine&vbcrlf
+          End If
+       Else
+          strNewFile=strNewFile&strLine&vbcrlf
+       End If
+    Loop
+    objFile.Close
+    Set objFSO=CreateObject("Scripting.FileSystemObject")
+    Set objFile=objFSO.OpenTextFile(strFile,ForWriting) 
+    objFile.Write strNewFile 
+    objFile.Close 
+ End Function
+

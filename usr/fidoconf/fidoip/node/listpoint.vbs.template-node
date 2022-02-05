@@ -1,0 +1,61 @@
+'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'   This file is part of fidoip. It is free software and it is covered
+'   by the GNU general public license. See the file LICENSE for details. */
+
+' Save registered points to listpoint.csv file and open it in notepad
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+If objFSO.FileExists("listpoint.csv") Then
+objFSO.DeleteFile("listpoint.csv"), DeleteReadOnly
+End If
+
+Set re = new regexp  
+re.IgnoreCase = false
+re.Global = True
+
+Dim arrFileLines()
+i = 0
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objFile = objFSO.OpenTextFile("\usr\fidoconf\binkd.cfg", 1)
+Do Until objFile.AtEndOfStream
+     Redim Preserve arrFileLines(i)
+     arrFileLines(i) = objFile.ReadLine
+     i = i + 1
+Loop
+objFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("listpoint.csv")
+
+objOutputFile.WriteLine "Address        ; Password  ; Full Name     ; City   ; Station      ; Point Address"
+objOutputFile.WriteLine ""
+
+For l = Ubound(arrFileLines) to LBound(arrFileLines) Step -1
+
+re.Pattern = " addpoint "
+
+if re.Test(arrFileLines(l)) then
+
+arrFileLines(l) = Replace(arrFileLines(l), "node ", "")
+
+arrFileLines(l) = Replace(arrFileLines(l), " - ", " ; ")
+arrFileLines(l) = Replace(arrFileLines(l), " #### ", " ; ")
+arrFileLines(l) = Replace(arrFileLines(l), " in ", " ; ")
+arrFileLines(l) = Replace(arrFileLines(l), " on ", " ; ")
+arrFileLines(l) = Replace(arrFileLines(l), "Do not edit this comment or scripts addpoint and removepoint will not work for point", "")
+arrFileLines(l) = Replace(arrFileLines(l), " point ", " ; ")
+
+objOutputFile.WriteLine arrFileLines(l)
+
+
+end if
+
+Next
+
+objOutputFile.Close
+
+Dim strProgramPath, objShell
+strProgramPath = "notepad listpoint.csv"
+set objShell = createobject("Wscript.Shell")
+objShell.Run strProgramPath

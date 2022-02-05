@@ -1,0 +1,31 @@
+#!/bin/sh
+# return number days in current month                
+DAYS=`cal -m | grep 31 | sed "s|.*30 ||"`
+if [ "31" = "$DAYS" ];
+then
+echo "31"
+exit
+fi
+
+DAYS=`cal -m | grep 30 | sed "s|.*29 ||"`
+if [ "30" = "$DAYS" ];
+then 
+echo "30"
+exit
+fi
+
+DAYS=`cal -m | grep 29 | sed "s|.*28 ||"`
+if [ "29" = "$DAYS" ];
+then
+echo "29"
+exit
+fi
+
+DAYS=`cal -m | grep 28 | sed "s|.*27 ||"`
+if [ "28" = "$DAYS" ];
+then
+echo "28"
+exit
+fi
+
+

@@ -1,0 +1,3 @@
+
+route direct LINK-NODE-ADDRESS LINK-NODE-ADDRESS.*          #### Do not edit this comment or scripts addlink and removelink will not work LINK-NODE-ADDRESS
+routefile direct LINK-NODE-ADDRESS LINK-NODE-ADDRESS.*      #### Do not edit this comment or scripts addlink and removelink will not work LINK-NODE-ADDRESS

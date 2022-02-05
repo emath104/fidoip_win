@@ -1,0 +1,139 @@
+#!/bin/sh
+#  remove reandOnly for point
+
+
+declare -r AllowedNumber="1234567890"
+declare -r AllowedFtn="1234567890.:/"
+
+echo "Now enter point or node FTN number for who you whould like to remove readonly"
+echo "Sample: "
+echo -n ":"
+read ftnnumber
+if [ -z "$ftnnumber" ]
+then
+echo 'To setup readonly you need input FTN number.'
+echo "You input nothing. Try to input next try. Exiting."
+exit
+fi
+
+ScrubbedCheck3="${ftnnumber//[^$AllowedFtn]/}"
+if [ "$ftnnumber" = "$ScrubbedCheck3" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedFtn""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+CHECKFTN=`echo "$ftnnumber" | grep "/" `
+if [ -z "$CHECKFTN" ]
+then
+echo 'To remove readonly you need input FTN number.'
+echo 'No symbol / in FTN number.'
+echo "Try to input next try. Exiting."
+exit
+fi
+
+CHECKFTN1=`echo "$ftnnumber" | grep ":" `
+if [ -z "$CHECKFTN1" ]
+then
+echo 'To remove readonly you need input FTN number.'
+echo 'No symbol : in FTN number.'
+echo "Try to input next try. Exiting."
+exit
+fi
+
+
+echo "Checking if this link exist."
+Z=`cat /usr/local/etc/fido/link.lst | grep ""$ftnnumber" " `
+if [ -z "$Z" ]
+then
+echo "No such link in configuration"
+M="1"
+else
+echo "Found link "$ftnnumber""
+fi
+
+echo "Checking if this point exist."
+Y=`cat /usr/local/etc/fido/point.lst | grep ""$ftnnumber" " `
+if [ -z "$Y" ]
+then
+echo "No such point"
+if [ "$M" = "1" ];then
+exit
+fi
+else
+echo "Found point "$ftnnumber""
+fi
+
+
+echo "Generationg list of readonly lists echoes for "$ftnnumber"..."
+echo "Parsing of readonly in /usr/local/etc/fido/readonly.lst"
+
+grep "ReadOnly " /usr/local/etc/fido/readonly.lst | grep ""$ftnnumber" " > /tmp/listechoread.info.tmp
+
+ECHOINFO=`cat /tmp/listechoread.info.tmp`
+
+NUMBER=`cat /tmp/listechoread.info.tmp | wc -l`
+
+
+if [ $NUMBER = "0" ];then
+echo "No echos with readonly for "$ftnnumber" in /usr/local/etc/fido/readonly.lst"
+exit
+fi
+
+cat /tmp/listechoread.info.tmp | sort | sed "s|#.*||g" > /tmp/echoselread.info.tmp
+
+NUMBER1=`cat /tmp/echoselread.info.tmp | wc -l`
+i=1
+NUMBER1=$(($NUMBER1+1))
+while [ "$i" -ne "$NUMBER1" ]
+do
+echo " "$i" `sed -n ""$i"p" /tmp/echoselread.info.tmp`"
+i=$(($i+1))
+done
+
+echo "Enter number to choose variant from the list:"
+read -p " ?" answer
+# Checking user input&scrubbing
+ScrubbedCheck4="${answer//[^$AllowedNumber]/}"
+if [ "$answer" = "$ScrubbedCheck4" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedNumber""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+
+echo
+echo "You choosed:"
+echo " "$answer" `sed -n ""$answer"p" /tmp/echoselread.info.tmp`"
+sed -n ""$answer"p" /tmp/echoselread.info.tmp > /tmp/echoread.tmp
+ECHONAME=`cat /tmp/echoread.tmp`
+
+
+echo 
+echo "Removing..."
+echo "$ECHONAME"
+sed -i "s|:|\\\:|" /tmp/echoread.tmp
+sed -i "s|/|\\\/|" /tmp/echoread.tmp
+#sed -i "s|.|\\\.|" /tmp/echoread.tmp
+
+ECHONAMEX=`cat /tmp/echoread.tmp`
+
+sed -i "/$ECHONAMEX/d" /usr/local/etc/fido/readonly.lst
+ 
+rm -f /tmp/listechoread.info.tmp 
+rm -f /tmp/echoread.tmp
+rm -f /tmp/echoselread.info.tmp 

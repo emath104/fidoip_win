@@ -1,0 +1,135 @@
+#!/bin/sh
+#  add reandOnly for echo 
+
+echo "Generationg list of active echoes..."
+echo "Parsing of echo in /usr/local/etc/fido/config."
+
+listecho | grep "Area " |  sed "s|.*/||g" > /tmp/listecho.info.tmp
+
+ECHOINFO=`cat /tmp/listecho.info.tmp`
+
+NUMBER=`cat /tmp/listecho.info.tmp | wc -l`
+
+declare -r AllowedNumber="1234567890"
+declare -r AllowedFtn="1234567890.:/"
+
+if [ $NUMBER = "0" ];then
+echo "No echos in /usr/local/etc/fido/config"
+exit
+fi
+
+cat /tmp/listecho.info.tmp | sort | sed "s|#.*||g" > /tmp/echosel.info.tmp
+
+NUMBER1=`cat /tmp/echosel.info.tmp | wc -l`
+i=1
+NUMBER1=$(($NUMBER1+1))
+while [ "$i" -ne "$NUMBER1" ]
+do
+echo " "$i" `sed -n ""$i"p" /tmp/echosel.info.tmp`"
+i=$(($i+1))
+done
+
+echo "Enter number to choose variant from the list:"
+read -p " ?" answer
+# Checking user input&scrubbing
+ScrubbedCheck4="${answer//[^$AllowedNumber]/}"
+if [ "$answer" = "$ScrubbedCheck4" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedNumber""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+
+echo
+echo "You choosed:"
+echo " "$answer" `sed -n ""$answer"p" /tmp/echosel.info.tmp`"
+sed -n ""$answer"p" /tmp/echosel.info.tmp > /tmp/echo.tmp
+ECHONAME=`cat /tmp/echo.tmp`
+
+echo "Now enter point or node FTN number to setup"
+echo "Sample: "
+echo -n ":"
+read ftnnumber
+if [ -z "$ftnnumber" ]
+then
+echo 'To setup readonly you need input FTN number.'
+echo "You input nothing. Try to input next try. Exiting."
+exit
+fi
+
+ScrubbedCheck3="${ftnnumber//[^$AllowedFtn]/}"
+if [ "$ftnnumber" = "$ScrubbedCheck3" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedFtn""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+CHECKFTN=`echo "$ftnnumber" | grep "/" `
+if [ -z "$CHECKFTN" ]
+then
+echo 'To setup readonly you need input FTN number.'
+echo 'No symbol / in FTN number.'
+echo "Try to input next try. Exiting."
+exit
+fi
+
+CHECKFTN1=`echo "$ftnnumber" | grep ":" `
+if [ -z "$CHECKFTN1" ]
+then
+echo 'To setup readonly you need input FTN number.'
+echo 'No symbol : in FTN number.'
+echo "Try to input next try. Exiting."
+exit
+fi
+
+echo "Checking if this link exist."
+Z=`cat /usr/local/etc/fido/link.lst | grep ""$ftnnumber" " `
+if [ -z "$Z" ]
+then
+echo
+else
+echo 
+echo "Setting up..."
+echo "ReadOnly "$ftnnumber" "$ECHONAME""
+echo "ReadOnly "$ftnnumber" "$ECHONAME"" >> /usr/local/etc/fido/readonly.lst
+ 
+rm -f /tmp/listecho.info.tmp 
+rm -f /tmp/echo.tmp
+rm -f /tmp/read.info.tmp
+rm -f /tmp/echosel.info.tmp 
+exit
+fi
+
+echo "Checking if this point exist."
+Y=`cat /usr/local/etc/fido/point.lst | grep ""$ftnnumber" " `
+if [ -z "$Y" ]
+then
+echo "No such point or link in configuration"
+else
+echo 
+echo "Setting up..."
+echo "ReadOnly "$ftnnumber" "$ECHONAME""
+echo "ReadOnly "$ftnnumber" "$ECHONAME"" >> /usr/local/etc/fido/readonly.lst
+ 
+rm -f /tmp/listecho.info.tmp 
+rm -f /tmp/echo.tmp
+rm -f /tmp/read.info.tmp
+rm -f /tmp/echosel.info.tmp 
+
+fi
+
+

@@ -1,0 +1,28 @@
+#!/bin/sh
+# point info database view
+
+cat /usr/local/etc/binkd.cfg | grep "####" | grep point > /tmp/point.list.tmp
+cat /tmp/point.list.tmp | sed "s|point.*||g" | sed "s/node//g" | sed "s| - | |g" | sed "s|####||g" >  /tmp/point.info.tmp
+POINTINFO=`cat /tmp/point.info.tmp`
+
+NUMBER=`cat /tmp/point.info.tmp | wc -l`
+
+if [ $NUMBER = "0" ];then
+echo "No point added to /usr/local/etc/binkd.cfg"
+exit
+fi
+
+echo "$NUMBER point found in /usr/local/etc/binkd.cfg"
+echo  "=================================================="
+echo "Here is mailer informaion regarging these points"
+echo "in configuration file /usr/local/etc/binkd.cfg:"
+echo "Point number:     Password:   Description:"
+echo
+i=1
+NUMBER=$(($NUMBER+1))
+while [ "$i" -ne "$NUMBER" ]
+do
+echo " "$i" `sed -n ""$i"p" /tmp/point.info.tmp`"
+i=$(($i+1))
+done
+

@@ -1,0 +1,19 @@
+# fidoip crontab tasks
+# crontab for fidoip tasks
+# 
+# For starting this task just click on \usr\bin\crontask.vbs
+# file.
+# 
+# If you whould like to modify schedule just edit this file
+# then click on icon fxcron in a tray and then select "Reload 
+# crontab file" menu 
+
+# format
+# min  hour   day      month      day_of_week command
+
+
+# This script runs every 31 minutes and exchange messages with your uplink
+
+*/31      *      *      *      *      @%DRIVELETTER%/usr/bin/rs.bat
+
+

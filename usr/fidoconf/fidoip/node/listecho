@@ -1,0 +1,27 @@
+#!/bin/sh
+# list echos database view
+
+cat /usr/local/etc/fido/config | grep "Area "  > /tmp/echo.list.tmp
+cat /tmp/echo.list.tmp | sed "s| -a .*||g"  | sed "s| -b .*||g" | sed "/LocalArea/d" | sed "/DupeArea/d" | sed "/NetmailArea/d" | sed "/BadArea/d"| sort >  /tmp/echo.info.tmp
+ECHOINFO=`cat /tmp/echo.info.tmp`
+
+NUMBER=`cat /tmp/echo.info.tmp | wc -l`
+
+if [ $NUMBER = "0" ];then
+echo "No echos in /usr/local/etc/fido/config"
+exit
+fi
+
+echo "$NUMBER echo found in /usr/local/etc/fido/config"
+echo  "=================================================="
+echo "Here is echo informaion regarging"
+echo "configuration file /usr/local/etc/fido/config:"
+echo "Type:   Echo name:    Location:"
+i=1
+NUMBER=$(($NUMBER+1))
+while [ "$i" -ne "$NUMBER" ]
+do
+echo "`sed -n ""$i"p" /tmp/echo.info.tmp`"
+i=$(($i+1))
+done
+

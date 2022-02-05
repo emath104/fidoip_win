@@ -1,0 +1,34 @@
+'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'   This file is part of fidoip. It is free software and it is covered
+'   by the GNU general public license. See the file LICENSE for details. */
+
+' Clean all old files 30 days in outbound directory
+
+Option Explicit 
+On Error Resume Next 
+Dim oFSO, oFolder, sDirectoryPath 
+Dim oFileCollection, oFile, sDir 
+Dim iDaysOld 
+
+'Directory Path From Where You want to clear the old files 
+
+sDirectoryPath = "%DRIVELETTER%\home\fido\outbound" 
+
+' Specify Number of Days Old File to Delete
+
+iDaysOld = 30
+
+Set oFSO = CreateObject("Scripting.FileSystemObject") 
+Set oFolder = oFSO.GetFolder(sDirectoryPath) 
+Set oFileCollection = oFolder.Files 
+
+For each oFile in oFileCollection
+  If oFile.DateLastModified < (Date() - iDaysOld) Then 
+  oFile.Delete(True) 
+  End If 
+Next 
+
+Set oFSO = Nothing 
+Set oFolder = Nothing 
+Set oFileCollection = Nothing 
+Set oFile = Nothing 

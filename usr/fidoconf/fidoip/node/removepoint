@@ -1,0 +1,138 @@
+#!/bin/sh
+# remove point from configuration files
+
+cat /usr/local/etc/binkd.cfg | grep "####" | grep point > /tmp/point.list.tmp
+cat /tmp/point.list.tmp | sed "s|point.*||g" | sed "s/node//g" | sed "s| - | |g" | sed "s|####||g" >  /tmp/point.info.tmp
+POINTINFO=`cat /tmp/point.info.tmp`
+NODENUMBER=`cat /usr/local/etc/binkd.cfg | grep node | grep ".1 - " | sed "s| -.*||g" | sed "s|node ||g" | sed "s|\\..*||g" `
+SYSOPNAME=`cat /usr/local/etc/binkd.cfg | grep "sysop " | sed "s|sysop ||g" | sed 's|"||g'`
+SYSOPNAME1=`echo $SYSOPNAME | sed "s|_| |g" `
+SHORTNODENAME=`echo $NODENUMBER | sed 's|.*:||g' | sed 's|/|-|g'`
+NODENUMBER1=`echo $NODENUMBER | sed 's|/|\\\/|g'`
+station=`cat /usr/local/etc/binkd.cfg | grep sysname | sed "s/sysname//g" | sed 's|"||g' | sed 's| ||g' `
+
+
+NUMBER=`cat /tmp/point.info.tmp | wc -l`
+
+if [ $NUMBER = "0" ];then
+echo "No point added to /usr/local/etc/binkd.cfg"
+exit
+fi
+
+if [ $NUMBER = "1" ];then
+echo "$NUMBER point found in /usr/local/etc/binkd.cfg"
+echo  "=================================================="
+echo "Here is mailer informaion regarging this point"
+echo "in configuration file /usr/local/etc/binkd.cfg:"
+echo "Point number:     Password for session:"
+echo $POINTINFO 
+POINTNAME=`echo $POINTINFO | sed "s| .*||g" | sed "s|##.*||g"`
+POINTNAME1=`echo $POINTNAME | sed 's|/|\\\/|g'`
+echo  "================================================="
+echo "Here is tosser info regarging point "$POINTNAME""
+echo "in config file /usr/local/etc/fido/point.lst:"
+cat /usr/local/etc/fido/point.lst | grep "$POINTNAME" | sed "s|##.*||g"
+
+echo ""
+echo "Delete point "$POINTNAME"?" 
+echo "OK? "
+echo "[y/n]"
+read reply
+echo ""  
+if [ "$reply" = "y" ];
+	then 
+cp /usr/local/etc/fidoip/node/announcerem.template-node /tmp/announcerem.template-node
+sed -i "s|POINT-ADDRESS|$POINTNAME1|g" /tmp/announcerem.template-node
+
+echo ""
+echo "Generating announce messages for point "$POINTNAME" removing"
+export FIDOCONFIG=/usr/local/etc/fido/config
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER"  -s "Point "$POINTNAME" removed" -e ""$SHORTNODENAME".official" -d /home/fido/localinb /tmp/announcerem.template-node
+send 2> /dev/null
+
+echo  "================================================="
+echo "Removing point "$POINTNAME" from configuration files"
+echo ""
+sed -i "/$POINTNAME1 /d" /usr/local/etc/binkd.cfg
+sed -i "/$POINTNAME1 /d" /usr/local/etc/fido/point.lst 
+sed -i "/$POINTNAME1 /d" /usr/local/etc/fido/readonly.lst 
+sed -i "s|$POINTNAME1\ ||g" /usr/local/etc/fido/config
+
+echo "/usr/local/etc/binkd.cfg" 
+echo "/usr/local/etc/fido/config"
+echo "/usr/local/etc/fido/point.lst"
+echo "/usr/local/etc/fido/readonly.lst"
+echo "Done."
+
+elif [ "$reply" = "n" ];
+	then 
+echo "Please modify configuration files manually or run this script again."
+fi
+
+
+
+else
+echo "$NUMBER point found in /usr/local/etc/binkd.cfg"
+echo  "=================================================="
+echo "Here is mailer informaion regarging this point"
+echo "in configuration file /usr/local/etc/binkd.cfg:"
+echo "Point number:     Password for session:"
+i=1
+NUMBER=$(($NUMBER+1))
+while [ "$i" -ne "$NUMBER" ]
+do
+echo " "$i" `sed -n ""$i"p" /tmp/point.info.tmp`"
+i=$(($i+1))
+done
+echo ""
+echo "Enter number to choose point to delete(or press Ctrl-C):"
+echo "All information regarding this point "$POINTNAME" will be deleted:"
+read -p " ?" answer
+echo
+echo "You choosed point to delete:"
+echo " "$answer" `sed -n ""$answer"p" /tmp/point.info.tmp`"
+sed -n ""$answer"p" /tmp/point.info.tmp > /tmp/point.tmp
+POINTINFO=`cat /tmp/point.tmp`
+POINTNAME=`echo $POINTINFO | sed "s| .*||g" | sed "s|##.*||g"`
+POINTNAME1=`echo $POINTNAME | sed 's|/|\\\/|g'`
+echo "Delete point "$POINTNAME"?" 
+echo "OK? "
+echo "[y/n]"
+read reply
+echo ""  
+if [ "$reply" = "y" ];
+	then 
+cp /usr/local/etc/fidoip/node/announcerem.template-node /tmp/announcerem.template-node
+sed -i "s|POINT-ADDRESS|$POINTNAME1|g" /tmp/announcerem.template-node
+
+echo ""
+echo "Generating announce messages for point "$POINTNAME" removing"
+export FIDOCONFIG=/usr/local/etc/fido/config
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Point "$POINTNAME" removed" -e ""$SHORTNODENAME".official" -d /home/fido/localinb /tmp/announcerem.template-node
+toss
+
+echo  "================================================="
+echo "Removing point "$POINTNAME" from configuration files"
+echo ""
+sed -i "/$POINTNAME1 /d" /usr/local/etc/binkd.cfg
+sed -i "/$POINTNAME1 /d" /usr/local/etc/fido/point.lst 
+sed -i "/$POINTNAME1 /d" /usr/local/etc/fido/readonly.lst 
+sed -i "s|$POINTNAME1\ ||g" /usr/local/etc/fido/config
+
+echo "/usr/local/etc/binkd.cfg" 
+echo "/usr/local/etc/fido/config"
+echo "/usr/local/etc/fido/point.lst"
+echo "/usr/local/etc/fido/readonly.lst"
+echo "Done."
+
+echo
+toss
+
+elif [ "$reply" = "n" ];
+	then 
+echo "Please run this script again."
+fi
+
+
+fi
+

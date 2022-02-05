@@ -1,0 +1,63 @@
+#!/bin/sh
+# point info database view with tosser config information with selected user
+
+cat /usr/local/etc/binkd.cfg | grep "####" | grep point > /tmp/point.list.tmp
+cat /tmp/point.list.tmp | sed "s|point.*||g" | sed "s/node//g" | sed "s| - | |g" | sed "s|####||g" >  /tmp/point.info.tmp
+POINTINFO=`cat /tmp/point.info.tmp`
+
+NUMBER=`cat /tmp/point.info.tmp | wc -l`
+
+if [ $NUMBER = "0" ];then
+echo "No point added to /usr/local/etc/binkd.cfg"
+exit
+fi
+
+if [ $NUMBER = "1" ];then
+echo "$NUMBER point found in /usr/local/etc/binkd.cfg"
+echo  "=================================================="
+echo "Here is mailer informaion regarging this point"
+echo "in configuration file /usr/local/etc/binkd.cfg:"
+echo "Point number:     Password:   Description:"
+
+echo  "================================================="
+echo "Here is tosser info regarging point "$POINTNAME""
+echo "in config file /usr/local/etc/fido/point.lst:"
+cat /usr/local/etc/fido/point.lst | grep "point "$POINTNAME"" | sed "s|##.*||g"
+else
+echo "$NUMBER point found in /usr/local/etc/binkd.cfg"
+echo  "=================================================="
+echo "Here is mailer informaion regarging points"
+echo "in configuration file /usr/local/etc/binkd.cfg:"
+echo "Point number:     Password:   Description:"
+echo ""
+i=1
+NUMBER=$(($NUMBER+1))
+while [ "$i" -ne "$NUMBER" ]
+do
+echo " "$i" `sed -n ""$i"p" /tmp/point.info.tmp`"
+i=$(($i+1))
+done
+echo "Enter number of raw to choose variant from the list:"
+read -p " ?" answer
+echo
+echo "You choosed:"
+echo " "$answer" `sed -n ""$answer"p" /tmp/point.info.tmp`"
+sed -n ""$answer"p" /tmp/point.info.tmp > /tmp/point.tmp
+POINTINFO=`cat /tmp/point.tmp`
+POINTNAME=`echo $POINTINFO | sed "s| .*||g" | sed "s|####.*||g"`
+
+echo  "================================================="
+echo "Here is readonly info regarging point "$POINTNAME""
+echo "in config file /usr/local/etc/fido/readonly.lst:"
+echo ""
+grep ""$POINTNAME"\ " /usr/local/etc/fido/readonly.lst |  sed "s|####.*||g" 
+echo
+
+echo  "================================================="
+echo "Here is tosser setting regarging point "$POINTNAME""
+echo "in config file /usr/local/etc/fido/point.lst:"
+echo ""
+grep ""$POINTNAME"\ " /usr/local/etc/fido/point.lst |  sed "s|####.*||g" 
+
+fi
+

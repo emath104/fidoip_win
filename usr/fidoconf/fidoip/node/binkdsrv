@@ -1,0 +1,47 @@
+#!/bin/sh
+
+OPTS=" -DCq /usr/local/etc/binkd.cfg"
+DAEMON=/usr/local/sbin/binkd
+USERNAME=username2change
+
+if [ "$USERNAME" = "username2change" ];then
+USERNAME="root"
+fi
+
+test -f $DAEMON || exit 0
+
+# don't start binkd if it is started by inetd
+ if [ -e /etc/xinetd.conf ]; then
+grep -q '^binkp[[:space:]]' /etc/xinetd.conf && exit 0
+fi
+
+case "$1" in
+  start)
+
+    echo -n "Starting FTN mailer: binkd"
+    su $USERNAME -c "$DAEMON $OPTS"
+    echo "."
+
+    ;;
+  stop)
+    echo -n "Stopping FTN mailer: binkd"
+    killall -9 binkd
+    echo "."
+    ;;
+  reload)
+    echo -n "Reloading FTN mailer: binkd"
+    killall -1 binkd 
+    echo "."
+    ;;
+  restart|force-reload)
+    sh $0 stop
+    sleep 1
+    sh $0 start
+    ;;
+  *)
+    echo "Usage: /usr/local/bin/binkd {start|stop|restart|reload|force-reload}"
+    exit 1
+    ;;
+esac
+
+exit 0

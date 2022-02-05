@@ -1,0 +1,50 @@
+#\usr\fidoconf\binkd.cfg
+domain fidonet \\home\\fido\\outbound ZONE-NUMBER
+domain fido alias-for fidonet
+domain fidonet.org alias-for fidonet
+
+address MYNODE-ADDRESS@fidonet
+sysname "SYSTEM-NAME"
+location "LOCATION-TOWN"
+sysop "SYSTEM-OPERATOR-NAME"
+nodeinfo 4M,TCP,BINKP,ICM,INA:MYHOST-DOMAIN-NAME
+#bindaddr MYHOST-DOMAIN-NAME  # Uncomment this row only if you have more then one nodes and bind binkd to specific IP
+#iport 433                    # Uncomment this row only if you have more then one nodes and bind binkd to specific non standard TCP port(not 24554)
+call-delay 120
+rescan-delay 5
+try 2
+hold 360
+deletedirs
+maxclients 250
+maxservers 250
+oblksize 32767
+send-if-pwd
+#backresolv
+log \\home\\fido\\binkd.log
+loglevel 4
+binlog \\home\\fido\\binkd.sts
+conlog 4
+percents
+printq
+inbound \\home\\fido\\localinb 
+inbound-nonsecure \\home\\fido\\protinb 
+temp-inbound \\home\\fido\\tempinb 
+minfree 10240
+minfree-nonsecure 10240
+kill-dup-partial-files
+kill-old-partial-files 86400
+kill-old-bsy 12h
+exec "\\usr\\bin\\toss.bat" *.su? *.mo? *.tu? *.we? *.th? *.fr? *.sa? *.pkt
+filebox   \\home\\fido\\filebox
+brakebox  \\home\\fido\\badarea
+prescan
+
+# First and main link
+node FIRSTLINK-NODE-ADDRESS FIRSTLINK-HOST-DOMAIN-NAME FIRSTLINK-NODE-PASSWORD c \\home\\fido\\2uplink    #### 1-st and Main UPLINK connection Do not edit this comment 
+
+# Point 1 - Sysop second account for access from other PC by network
+node MYNODE-ADDRESS.1 - MYPOINT-PASSWORD
+
+# share FIRSTLINK-NODE-ADDRESS SECOND-NODE-ADDRESS  # Uncomment this row only if you have more then one links and whould like to allow automatic netmail sharing to make your netmail recvieve and send even if one of link is not avalaible. Instead of SECOND-NODE-ADDRESS put one of exist links in user section  
+
+# User links and points section 

@@ -1,0 +1,374 @@
+'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'   This file is part of fidoip. It is free software and it is covered
+'   by the GNU general public license. See the file LICENSE for details. */
+
+' Script adds link to node configuration files
+Option Explicit
+
+
+' Эти 4 констант нужно поправить! You need change these 4 constants!
+'---------------------------------
+const linkFullName      = "Stepan Zapasov"
+const linkFTNaddress     = "2:5020/732"
+const linkDNSname       = "zapasov.dyndns.org"
+const linkPassword      = "09876543"
+'---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Dim linkFTNaddressTrim, FTNAddress, ShorNodeName, MyFullName, MySysName
+
+linkFTNaddressTrim = Trim(linkFTNaddress)
+
+FTNAddress = "2:5020/788"
+ShorNodeName = "5020-788"
+MySysName = "MyStation"
+MyFullName = "Vasiliy Pampasov"
+
+
+Dim linkFTNAddressLen, linkShorNodeNameLen, linkShorNodeName
+linkFTNAddressLen = Len(linkFTNaddressTrim)
+linkShorNodeNameLen = linkFTNAddressLen - 2
+linkShorNodeName = Right(linkFTNaddressTrim,linkShorNodeNameLen) 
+linkShorNodeName = Replace(linkShorNodeName, "/", "-")
+
+
+
+Dim TestName, TestFTNAddress, re
+Set re = new regexp  
+re.IgnoreCase = false
+re.Global = True
+Dim arrFileLines()
+
+TestName = linkFullName & " "
+TestFTNAddress = linkFTNaddress & " "
+
+Const ForReading = 1
+
+Dim objFSO, objTextFile, strText, strTextNew, strTextAppend, objOutputFile, i, l, FoundStr, FileToAdd, FileToAddTemplate
+
+FileToAdd = "\usr\fidoconf\link.lst"
+FileToAddTemplate = "\usr\fidoconf\fidoip\node\link.lst.template-node"
+
+i = 0
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, 1)
+Do Until objTextFile.AtEndOfStream
+     Redim Preserve arrFileLines(i)
+     arrFileLines(i) = objTextFile.ReadLine
+     i = i + 1
+Loop
+objTextFile.Close
+For l = Ubound(arrFileLines) to LBound(arrFileLines) Step -1
+
+re.Pattern = TestName
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+re.Pattern = TestFTNAddress
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+
+Next
+
+
+
+i = 0
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\uplink.lst", 1)
+Do Until objTextFile.AtEndOfStream
+     Redim Preserve arrFileLines(i)
+     arrFileLines(i) = objTextFile.ReadLine
+     i = i + 1
+Loop
+objTextFile.Close
+For l = Ubound(arrFileLines) to LBound(arrFileLines) Step -1
+
+re.Pattern = TestName
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+re.Pattern = TestFTNAddress
+if re.Test(arrFileLines(l)) then
+FoundStr= "Pattern Found"
+end if
+
+
+Next
+
+
+
+if FoundStr <> "Pattern Found" Then
+
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile(FileToAdd, ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile(FileToAddTemplate, ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,"LINK-NODE-ADDRESS",linkFTNaddressTrim)
+strTextNew = Replace(strTextNew,"MYNODE-ADDRESS",FTNAddress)
+strTextNew = Replace(strTextNew,"LINK-NODE-NAME",linkFullName)
+strTextNew = Replace(strTextNew,"LINK-NODE-PASSWORD",linkPassword)
+strTextNew = Replace(strTextNew,"LINK-HOST-DOMAIN-NAME",linkDNSname)
+strTextNew = Replace(strTextNew,"SHORTNODE-NAME",ShorNodeName)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile(FileToAdd)
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\binkd.cfg", ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\fidoip\node\binklink.template-node", ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,"LINK-NODE-ADDRESS",linkFTNaddressTrim)
+strTextNew = Replace(strTextNew,"MYNODE-ADDRESS",FTNAddress)
+strTextNew = Replace(strTextNew,"LINK-NODE-NAME",linkFullName)
+strTextNew = Replace(strTextNew,"LINK-NODE-PASSWORD",linkPassword)
+strTextNew = Replace(strTextNew,"LINK-HOST-DOMAIN-NAME",linkDNSname)
+strTextNew = Replace(strTextNew,"SHORTNODE-NAME",ShorNodeName)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("\usr\fidoconf\binkd.cfg")
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\readonly.lst", ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\fidoip\node\readonly-link.lst.template-node", ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,"LINK-ADDRESS",linkFTNaddressTrim)
+strTextNew = Replace(strTextNew,"SHORTNODE-NAME",ShorNodeName)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("\usr\fidoconf\readonly.lst")
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\routing.lst", ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\fidoip\node\routing.lst.template-node", ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,"LINK-NODE-ADDRESS",linkFTNaddressTrim)
+
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("\usr\fidoconf\routing.lst")
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile("\usr\bin\poll.bat", ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\fidoip\node\poll.bat.template-node", ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,"LINK-NODE-ADDRESS",linkFTNaddressTrim)
+
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("\usr\bin\poll.bat")
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+Set objTextFile = objFSO.OpenTextFile("\usr\golded+\macro.cfg", ForReading)
+
+strText = objTextFile.ReadAll
+
+objTextFile.Close
+
+Set objTextFile = objFSO.OpenTextFile("\usr\fidoconf\fidoip\node\macro.cfg.template-node", ForReading)
+
+strTextNew = objTextFile.ReadAll
+
+strTextNew = Replace(strTextNew,"LINK-NODE-ADDRESS",linkFTNaddressTrim)
+strTextNew = Replace(strTextNew,"LINK-NODE-PASSWORD",linkPassword)
+strTextNew = Replace(strTextNew,"SHORTLINK-NAME",linkShorNodeName)
+
+objTextFile.Close
+
+Set objOutputFile = objFSO.CreateTextFile("\usr\golded+\macro.cfg")
+
+strTextAppend = strText &VbCrLf& strTextNew 
+
+objOutputFile.WriteLine strTextAppend 
+
+objOutputFile.Close
+
+
+
+Const ForWriting = 2
+
+ Dim rFile
+ Dim Text
+ Dim wFile 
+
+
+
+Dim FSO
+
+Set FSO = CreateObject("Scripting.FileSystemObject")
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\announce1.template-node", "\home\fido\announce1.template-node"
+
+
+ Set rFile = FSO.OpenTextFile("\home\fido\announce1.template-node",ForReading)
+ Text = rFile.ReadAll
+
+Text = Replace(Text," LINK-ADDRESS",linkFTNaddressTrim)
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"LINK-NODE-NAME",linkFullName)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"SYSTEM-NAME",MySysName)
+
+
+ Set wFile = FSO.OpenTextFile("\home\fido\announce1.template-node",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+
+msgbox "Линк " & linkFullName & "(" & FTNAddress & linkFTNaddressTrim & ") добавлен/Link " & linkFullName & "(" & linkFTNaddressTrim & ") is added"
+
+DriveLetter = FSO.GetDriveName(FSO.GetAbsolutePathName("\usr\fidoconf\config.cfg"))
+
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\welcome2.bat.template-node", "\usr\bin\welcome2.bat"
+
+ Set rFile = FSO.OpenTextFile("\usr\bin\welcome2.bat",ForReading)
+ Text = rFile.ReadAll
+
+
+Text = Replace(Text,"LINK-ADDRESS",linkFTNaddressTrim)
+Text = Replace(Text,"MYNODE-ADDRESS",FTNAddress)
+Text = Replace(Text,"LINK-NODE-NAME",linkFullName)
+Text = Replace(Text,"SHORTNODE-NAME",ShorNodeName)
+Text = Replace(Text,"%DRIVELETTER%",DriveLetter)
+Text = Replace(Text,"SYSTEM-OPERATOR-NAME",MyFullName)
+
+ Set wFile = FSO.OpenTextFile("\usr\bin\welcome2.bat",ForWriting)
+ wFile.Write Text
+
+ Set rFile = nothing
+ Set wFile = nothing
+
+
+
+Dim strProgramPath, objShell, DriveLetter
+strProgramPath = "cmd /c \usr\bin\welcome2.bat"
+set objShell = createobject("Wscript.Shell")
+objShell.Run strProgramPath
+
+
+
+
+else
+
+msgbox "Похоже, что адрес " &  TestFTNAddress & " или линк " & TestName  & " уже добавлены в конфигурационные файлы" & VbCrLf & "It seems that address "  &  TestFTNAddress & " or link " & TestName  & " was already added to config files"
+
+End if

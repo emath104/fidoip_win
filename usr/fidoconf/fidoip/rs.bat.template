@@ -1,5 +1,5 @@
 @echo off
-call params.bat
+call \usr\bin\params.bat
 \usr\bin\hpt.exe scan pack
 \usr\bin\binkd.exe -cp -P2:5020/XXX \usr\fidoconf\binkd.cfg
 \usr\bin\htick.exe toss

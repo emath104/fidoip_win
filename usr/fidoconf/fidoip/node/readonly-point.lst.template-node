@@ -1,0 +1,14 @@
+
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER SHORTNODE-NAME.official         #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER SHORTNODE-NAME.robots           #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER SHORTNODE-NAME.fileecho         #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER r50.hubs                        #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER r50.bone                        #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER r50.sysop.info                  #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER ru.sysop                        #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER r50.sysop.talk                  #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER su.ip.sysop                     #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER su.sysop                        #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+ReadOnly MYNODE-ADDRESS.POINT-NUMBER r50.sysop                       #### Do not edit this comment or scripts addpoint and removepoint will not work for MYNODE-ADDRESS.POINT-NUMBER point
+
+

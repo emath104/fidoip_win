@@ -1,9 +1,9 @@
+;\usr\golded+\golded.cfg
 CTRLINFONET   TEARLINE, ORIGIN
 CTRLINFOECHO  TEARLINE, ORIGIN
 CTRLINFOLOCAL TEARLINE, ORIGIN
 
-TEARLINE -А вы бы искусством занялись. Поэзией, что ли?
-
+TEARLINE -Пиши, старик, пиши! Мы тебя не покинем.
 
 INVALIDATE Seenby   "SEEN-BY"       "SEEN+BY"
 INVALIDATE Tearline "--- "          "-+- "
@@ -31,35 +31,39 @@ ROBOTNAME AllFix
 ROBOTNAME FileFix
 ROBOTNAME "DM Tic"
 ROBOTNAME SqaFix
-
-UseSoftCRxlat Yes 	;  EDITCOMPLETION "Н" "H" ; ─ы  цхёЄъющ чрьхэ√ сєът√ ═ єфрышЄх UseSoftCRxlat Yes
+ROBOTNAME Dumb-robot
+UseSoftCRxlat Yes 	;  EDITCOMPLETION "Н" "H" ; Для жесткой замены буквы Н, уже не нужно
 EDITSOFTCRXLAT H       ;
 DISPSOFTCR Yes
 
 IMPORTBEGIN >---=== Куть он "@file" ===--- 
 IMPORTEND >---=== Куть офф "@file" ===--- 
 DispHdrDateSet -20 20
-AddressMacro afix,AreaFix,2:5020/XXX,"12345678",K/S,Dir
-
+AddressMacro AreaFix, AreaFix, 2:5020/XXX, "12345678", K/S, Dir
+AddressMacro FileFix, FileFix, 2:5020/XXX, "12345678", K/S, Dir
+AddressMacro af, AreaFix, 2:5020/XXX, "12345678", K/S, Dir
+AddressMacro ff, FileFix, 2:5020/XXX, "12345678", K/S, Dir
 LogFile		\home\fido\golded.log
 UuDecodePath    \home\fido\uudecode
 OutPutFile      \home\fido\outfile
 TemplatePath	\usr\golded+
 include         \usr\golded+\gedcolor.cfg
-; ═х яЁштхЄcЄтютрЄ№ ЁюсюЄют
+; Не приветствовать роботов
 RobotName AreaFix
 RobotName FileFix
 RobotName T-fix
 RobotName FAQServer
-; чрэюёшЄ№ рфЁхёрЄ√, ъюЄюЁ√ь яш°шЄх тю тёхї юсырёЄ ї т рфЁхёэє■ ъэшує 
+RobotName Dump-robot
+RobotName Dumb-robot
+; Автоаически добавлять адреса собеседников в адресную книгу 
 ; /usr/local/etc/golded+/golduser.lst
 AddressBookAdd  Always
-; ─ы  чрэхёхэш   т  рфЁхёэє■ ъэшує ртЄюЁр ёююс∙хэш   тЁєўэє■ эрцьшЄх Ctrl-B
+; Для добавления в адресуню книгу нажмите Ctrl-B
 ^B      READAddressBookAdd
 ; │ЁюёьюЄЁ рфЁхёэющ ъэшуш - Alt-F10.
 @F10    READUserBase
 NodelistWarn    No
-ORIGIN "Муравьиным спиртом советую натереть"
+ORIGIN "Неужели опять: яйца всмятку, котлеты, цыплята?"
 ;TAGLINE @random.txt
 TwitName Bad User
 TwitName Urgy Spammer
@@ -88,7 +92,6 @@ VIEWKLUDGE NO
 
 COLOR READER KLUDHIDD   Green     on Black
 COLOR READER QUOTE2           lgreen    ON BLACK
-
 
 EDITMENU NO
 
@@ -124,9 +127,7 @@ EDITHARDLINES NO
 COLOR MENU   UNREAD     YELLOW  ON BLACK
 HighlightUnread Yes
 username Vasiliy Pampasov
-
 Address 2:5020/YYY.ZZZ
-
 PeekURLOptions FromTop
 URLHANDLER start "" @url
 DispHdrLocation	Yes
@@ -138,3 +139,15 @@ FGHIGetHandler wget http://fghi.pp.ru/get?@fghiurl -O @ofile -U "GoldED-NSF Down
 FGHIReverseSearch YES
 MsgListFirstFGHI NO
 
+
+AREALISTGROUPID NO
+AREALISTSORT YUGTE
+AREASEP !NET "Netmail              ------------  Почта" 0 Net
+AREASEP !LOCAL "Auxiliary Areas      ------------  служебные области" 0 Local
+AREASEP !ECHO "Other FIDONet Echoes ------------  другие конференции Фидонет" 0 Echo
+AREALISTFORMAT "AM D CPUN E G "
+AREALISTTYPE New
+AREALISTECHOMAX 0
+AREALISTGROUPORDER TE
+AREATYPEORDER Net Local Echo
+AREALISTPAGEBAR YES

@@ -1,0 +1,17 @@
+#!/bin/sh
+echo "Receiving FIDO messages and files with links"
+/usr/local/bin/poll
+echo "Tossing received messages"
+/usr/local/sbin/hpt -c /usr/local/etc/fido/config toss ;  sync
+echo "Tossing received files"
+/usr/local/sbin/htick -c /usr/local/etc/fido/config toss ; sync
+echo "Annoncing received files"
+/usr/local/sbin/htick -c /usr/local/etc/fido/config announce ; sync
+echo "Linking received messages into echo areas"
+/usr/local/sbin/hpt -c /usr/local/etc/fido/config link  ; sync
+echo "AreaFix changing requests processing"
+/usr/local/sbin/hpt -c /usr/local/etc/fido/config afix  ; sync
+echo "FileFix changing requests processing"
+/usr/local/sbin/htick -c /usr/local/etc/fido/config ffix  ; sync
+echo "New fecho files tossing"
+/usr/local/sbin/htick -c /usr/local/etc/fido/config toss  ; sync

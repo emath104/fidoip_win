@@ -1,0 +1,231 @@
+#!/bin/bash
+# Add new link to /usr/local/etc/binkd.cfg and /usr/local/etc/fido/routing.lst route and additional links to /usr/local/etc/fido/link.lst
+
+CWD=`pwd`
+OSNAME=`uname`
+USERNAME=`whoami`
+MACHINE=`uname -m`
+date=`date +%Y%m%d%m%s`
+shortdate=`echo ${date} | sed s/^...//`
+shortname=fidoip_configs_${shortdate}.tar
+
+
+
+T1="root"
+T2="Linux"
+T3="FreeBSD"
+T4="DragonFly"
+
+set -e
+set -u
+
+if [ "$OSNAME" = "$T3" ]; then
+Z1="BSD"
+fi
+
+if [ "$OSNAME" = "$T4" ]; then
+Z1="BSD"
+Z2="PKGSRC"
+fi
+
+
+# Declaration of allowed symbol for user input scrubbing
+declare -r AllowedChars="1234567890/., :-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+declare -r AllowedNumbers="1234567890/.:"
+declare -r Alloweddns="1234567890/.:-abcdefghijklmnopqrstuvwxyz"
+
+
+if [ "$T1" = "$USERNAME" ]; then
+echo  ''
+else
+echo 'Please run this script as root' ; exit
+fi
+
+NODENUMBER=`cat /usr/local/etc/binkd.cfg | grep node | grep ".1 - " | sed "s| -.*||g" | sed "s|node ||g" | sed "s|\\..*||g" `
+NODENUMBER1=`echo $NODENUMBER | sed 's|/|\\\/|g'`
+station=`cat /usr/local/etc/binkd.cfg | grep sysname | sed "s/sysname//g" | sed 's|"||g' | sed 's| ||g' `
+
+
+
+echo "--------------------------------------------------------------------"
+echo ""
+echo "This script list add link of fidoip's FIDONet node."
+echo ""
+echo "--------------------------------------------------------------------"
+echo ""
+
+echo -e "Enter your link full name and press press [ENTER]."
+echo -n "Sample -  Stepan Zapasov: "
+read linkname
+if [ -z "$linkname" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck4="${linkname//[^$AllowedChars]/}"
+if [ "$linkname" = "$ScrubbedCheck4" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+# Inserting \ before space
+echo  "$linkname" | sed 's/ /\\ /g' > /tmp/fidoiptmp
+linkname1=`cat /tmp/fidoiptmp`
+
+# Changing all space to _ 
+echo  "$linkname" | sed 's/ /\_/g' > /tmp/fidoiptmp
+linkname2=`cat /tmp/fidoiptmp`
+
+
+echo -e "Enter your link FTN address and press [ENTER]."
+echo -n "Sample -  2:5020/732: "
+read linkftnaddress
+if [ -z "$linkftnaddress" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck5="${linkftnaddress//[^$AllowedNumbers]/}"
+if [ "$linkftnaddress" = "$ScrubbedCheck5" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedNumbers""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+# Inserting \ before space
+echo  "$linkftnaddress" | sed 's|/|\\/|g' > /tmp/fidoiptmp
+linkftnaddress1=`cat /tmp/fidoiptmp`
+
+SHORTNODENAME=`echo $linkftnaddress | sed 's|.*:||g' | sed 's|/|-|g'`
+
+
+echo "Enter your link DNS name or IP-address and press [ENTER]."
+echo -n "Sample - zapasov.dyndns.org: "
+read linkdnsaddress
+if [ -z "$linkdnsaddress" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+
+
+# Checking user input&scrubbing
+ScrubbedCheck6="${linkdnsaddress//[^$Alloweddns]/}"
+if [ "$linkdnsaddress" = "$ScrubbedCheck6" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$Alloweddns""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+
+echo "Enter your link password and press [ENTER]."
+echo "(not bigger then 8 symbols)"
+echo -n "Sample -  09876543: " 
+read linkpassword
+if [ -z "$linkpassword" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck7="${linkpassword//[^$AllowedChars]/}"
+if [ "$linkpassword" = "$ScrubbedCheck7" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+
+cat /usr/local/etc/fidoip/node/link.lst.template-node > /tmp/link.lst.template-node
+cat /usr/local/etc/fidoip/node/routing.lst.template-node > /tmp/routing.lst.template-node 
+cat /usr/local/etc/fidoip/node/binklink.template-node > /tmp/binklink.template-node
+cat /usr/local/etc/fidoip/node/poll.template-node | grep binkd > /tmp/poll.template-node
+cat /usr/local/etc/fidoip/node/macro.cfg.template-node > /tmp/macro.cfg.template-node
+cp /usr/local/etc/fidoip/node/announce1.template-node /tmp/announce1.template-node
+
+sed -i "s/LINK-NODE-NAME/$linkname1/g" /tmp/link.lst.template-node
+sed -i "s/LINK-NODE-ADDRESS/"$linkftnaddress1"/g" /tmp/link.lst.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/link.lst.template-node
+sed -i "s/LINK-NODE-PASSWORD/"$linkpassword"/g" /tmp/link.lst.template-node
+sed -i "s/LINK-HOST-DOMAIN-NAME/"$linkdnsaddress"/g" /tmp/link.lst.template-node
+
+sed -i "s/LINK-HOST-DOMAIN-NAME/"$linkdnsaddress"/g" /tmp/binklink.template-node
+sed -i "s/LINK-NODE-ADDRESS/"$linkftnaddress1"/g"  /tmp/binklink.template-node
+sed -i "s/LINK-NODE-PASSWORD/"$linkpassword"/g" /tmp/binklink.template-node
+sed -i "s/LINK-NODE-NAME/$linkname1/g" /tmp/binklink.template-node
+sed -i "s/LINK-NODE-ADDRESS/"$linkftnaddress1"/g"  /tmp/routing.lst.template-node
+sed -i "s/LINK-NODE-ADDRESS/"$linkftnaddress1"/g" /tmp/poll.template-node
+
+
+sed -i "s/SHORTNODE-NAME/"$SHORTNODENAME"/g" /tmp/macro.cfg.template-node
+sed -i "s/LINK-NODE-PASSWORD/"$linkpassword"/g" /tmp/macro.cfg.template-node
+sed -i "s/LINK-NODE-ADDRESS/"$linkftnaddress1"/g" /tmp/macro.cfg.template-node
+
+cat /tmp/link.lst.template-node >> /usr/local/etc/fido/link.lst
+cat /tmp/routing.lst.template-node >> /usr/local/etc/fido/routing.lst
+cat /tmp/binklink.template-node >> /usr/local/etc/binkd.cfg
+cat /tmp/poll.template-node >> /usr/local/bin/poll
+cat /tmp/macro.cfg.template-node >> /usr/local/etc/golded+/macro.cfg
+
+MYSHORTNODE=`echo $NODENUMBER | sed 's|.*:||g' | sed 's|/|-|g'`
+
+sed -i "s|LINK-FULL-NAME|$linkname1|g" /tmp/announce1.template-node
+sed -i "s|LINK-ADDRESS|$linkftnaddress1|g" /tmp/announce1.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/announce1.template-node
+sed -i "s|SYSTEM-NAME|"$station"|g" /tmp/announce1.template-node
+
+echo ""
+echo "Generating announce message"
+echo
+
+export FIDOCONFIG=/usr/local/etc/fido/config
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER"  -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Link ""$linkftnaddress"" is created " -e ""$MYSHORTNODE".official" -d /home/fido/localinb /tmp/announce1.template-node
+
+toss
+
+echo ""
+echo "Link "$linkname" "$linkftnaddress" added to configuration files"
+echo "/usr/local/etc/binkd.cfg"
+echo "/usr/local/etc/fido/link.lst"
+echo "/usr/local/etc/fido/routing.lst"
+echo "/usr/local/etc/golded+/macro.cfg"
+echo "/usr/local/bin/poll"

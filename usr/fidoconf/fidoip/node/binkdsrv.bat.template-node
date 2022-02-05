@@ -1,0 +1,19 @@
+@echo off
+echo .
+%DRIVELETTER%
+echo ********************************
+echo * Starting fxcron Task Manager *
+START /B CMD /C CALL "cscript"  %DRIVELETTER%\usr\bin\crontask.vbs >NUL 2>&1
+echo * use icon fxcron in the tray to manage
+echo ********************************
+echo .
+
+echo ****************************
+echo *  Starting binkd service  *
+echo ****************************
+echo .
+echo .
+echo Press CTRL-C to stop binkd service
+echo .
+
+%DRIVELETTER%\usr\bin\binkd.exe -sCT %DRIVELETTER%\usr\fidoconf\binkd.cfg

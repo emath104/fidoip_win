@@ -1,0 +1,84 @@
+#!/bin/sh
+# Remove link from /usr/local/etc/binkd.cfg, /usr/local/etc/golded+/macro.cfg
+# /usr/local/etc/fido/link.lst and routing.lst
+
+ZONE=`grep "domain fidonet"  /usr/local/etc/binkd.cfg | head -n1 | sed "s| ||g" | sed "s|.*outbound||g"`
+
+echo "--------------------------------------------------------------------"
+echo ""
+echo "This script remove link in fidoip's FIDONet node configuration."
+echo ""
+echo "--------------------------------------------------------------------"
+echo ""
+
+rm -f /tmp/link.list.tmp
+rm -f /tmp/link.info.tmp
+
+echo
+
+cat /usr/local/etc/fido/link.lst | grep "Link "  | sed "s|Link ||" | sed "s|\#\#\#\#||g" | sed "s/Do not edit.*//g" | sed "s|               ||" | sed "s|          ||" | sed "s|       ||" | sed "s|     ||" | sed "s|     ||" | sed "s|   ||" > /tmp/link.list.tmp
+cat /tmp/link.list.tmp  >  /tmp/link.info.tmp
+
+NUMBER=`cat /tmp/link.info.tmp | wc -l`
+
+if [ $NUMBER = "0" ];then
+echo "No additional links added to /usr/local/etc/fido/link.lst yet"
+exit
+else
+echo "Warning!!! Before remove link you need to unsubscibe from"
+echo "file echoes and echoes you have for this link. If you do not"
+echo "send * to this link AreaFix and FileFix press now Ctrl-C."
+echo "You are warned!."
+echo ""
+sleep 7
+echo "==========================================================="
+echo "Select what link to delete from configuration fidoip node"
+echo "==========================================================="
+echo "Link Name:   Link address:   DNS-name:      password:  "
+echo ""
+i=1
+NUMBER=$(($NUMBER+1))
+while [ "$i" -ne "$NUMBER" ]
+do
+echo " "$i" `sed -n ""$i"p" /tmp/link.info.tmp`"
+i=$(($i+1))
+done
+echo "Enter number of link to choose variant from the list:"
+read -p " ?" answer
+echo
+echo "You choosed:"
+echo " "$answer" `sed -n ""$answer"p" /tmp/link.info.tmp`"
+sed -n ""$answer"p" /tmp/link.info.tmp > /tmp/link.tmp
+LINKINFO=`cat /tmp/link.tmp`
+LINKLAST=`echo $LINKINFO | sed "s|.*\\:||g" | sed "s| .*||g"`
+LINKPREF=`echo $LINKINFO | sed "s|[^0-9:/]*||g"  | sed "s|:.*||g"`
+LINKLAST1=`echo $LINKLAST | sed 's|/|\\\/|g'`
+echo  "Removing link "$LINKPREF":"$LINKLAST" from configuration files"
+
+cp /usr/local/etc/fidoip/node/announcerem1.template-node /tmp/announcerem1.template-node
+
+sed -i "/$LINKPREF:$LINKLAST1/d" /usr/local/etc/fido/link.lst
+sed -i "/$LINKPREF:$LINKLAST1/d" /usr/local/etc/golded+/macro.cfg
+sed -i "/$LINKPREF:$LINKLAST1/d" /usr/local/etc/fido/routing.lst
+sed -i "/$LINKPREF:$LINKLAST1/d" /usr/local/etc/binkd.cfg
+sed -i 's|$LINKPREF:$LINKLAST1||g' /usr/local/etc/fido/config
+
+echo
+echo "Generating announce message"
+echo ""
+
+NODENUMBER=`cat /usr/local/etc/binkd.cfg | grep node | grep ".1 - " | sed "s| -.*||g" | sed "s|node ||g" | sed "s|\\..*||g" `
+
+MYSHORTNODE=`echo $NODENUMBER | sed 's|.*:||g' | sed 's|/|-|g'`
+
+sed -i "s|LINK-ADDRESS|$LINKPREF:$LINKLAST1|g" /tmp/announcerem1.template-node
+
+export FIDOCONFIG=/usr/local/etc/fido/config
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER"  -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Link ""$LINKPREF":"$LINKLAST"" is removed " -e ""$MYSHORTNODE".official" -d /home/fido/localinb /tmp/announcerem1.template-node
+echo
+toss
+echo ""
+echo "Done"
+echo ""
+
+fi

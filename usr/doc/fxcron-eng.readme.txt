@@ -1,0 +1,64 @@
+fxcron is a simple lightweight cron scheduler for Windows (W2k - W7)
+
+It is basically a task scheduler like the well known cron deamon on Unix/Linux systems.
+fxcron is a simple user application that resides within the taskbar. It does not run as service.
+Usage should be as simple as possible. The tasks are specified in a crontab file. It is able to start scripts or programs in background. i.e. the user is not bothered by suddenly popped-up console windows. 
+
+All tasks are specified in a simple crontab file.
+
+Syntax of the crontab file for fxcron
+The crontab file for fxcron is mainly compatible with the one for Unix/Linux crond.
+Each task is specified in one line with the following format
+<minute> <hour> <day> <month> <day of week> <command>
+The tokens are separated by one or more spaces. Leading spaces are ignored.
+    field         allowed values
+    -----         --------------
+    minute        0-59
+    hour          0-23
+    day of month  1-31
+    month         1-12 (or names: jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec)
+    day of week   0- 7 (0 or 7 is Sun, or names: Sun, Mon, Tue, Wed, Thu, Fri, Sat)
+
+Names are case-insensitive. Each field could be a single value, a list, a range or a fraction.
+A list contains values separated by commas. e.g. 10,20,30
+A range is specified by two values separated by '-' e.g. mon-fri
+A fraction is specified by '/' e.g. */10 means every ten minutes
+
+Comments  start with '#'. Everything behind '#' will be ignored.
+
+### example crontab file #############################################################
+# see readme.txt for syntax details
+
+
+# min  hour   month   day   day_of_week command
+
+# daily backup during lunch break at 12:15 every working day (in background)
+15      12      *       *     mon-fri   @c:/Programme/scripts/daily-backup.cmd
+
+# weekly backup at 4pm every Friday (in background)
+0       16      *       *     fri       @c:/Programme/scripts/weekly-backup.cmd
+
+# say good morning
+# note: I'm not going to work at 1am. So it will be handled as a missed task
+# and done when the PC is started in the morning
+0        1      *       *      mon-fri  !c:/Programme/scripts/good-morning.cmd
+
+### example crontab file #############################################################
+
+see also
+http://de.wikipedia.org/wiki/Crontab
+
+Usage:
+fxcron [OPTIONS]
+-f --file  <crontab file>       specifies the crontab file
+-l --logfile <logfile>          file to store log information
+-v --verbose                    increase verbosity / loglevel default is WARN
+-q --quiet                      decrease verbosity / loglevel default is WARN
+
+example:
+fxcron -f c:/schnuddel/crontab.txt -l c:/tmp/fxcronlog.txt -vv
+starts fxcron with loglevel INFO
+
+It's also possible to start fxcron without any parameter and specify the crontab file and log file in a configuration dialog.
+Currently this configuration can be stored within the registry if enabled. fxcron will not touch the registry unless explicitly requested.
+If the storage in the registry is enabled fxcron will also store the timestamp of the last execution. So it will be able to run missed tasks scheduled for atime when the PC was down.

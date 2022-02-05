@@ -1,0 +1,172 @@
+#!/bin/sh
+#  change password for point or link 
+
+declare -r AllowedFtn="1234567890.:/"
+declare -r AllowedChars="1234567890/., :-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+rm -f /tmp/password
+rm -f /tmp/testpass
+
+echo "This program change password for link or point..."
+echo "Parsing of /usr/local/etc/fido/link.lst"
+echo "Parsing of /usr/local/etc/fido/point.lst"
+echo ""
+
+echo "Now enter point or link FTN address for which you would like to change password"
+echo -n ":"
+read ftnnumber
+if [ -z "$ftnnumber" ]
+then
+echo 'To change password need input FTN address link or point.'
+echo "You input nothing. Try to input next try. Exiting."
+exit
+fi
+
+ScrubbedCheck3="${ftnnumber//[^$AllowedFtn]/}"
+if [ "$ftnnumber" = "$ScrubbedCheck3" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedFtn""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+CHECKFTN=`echo "$ftnnumber" | grep "/" `
+if [ -z "$CHECKFTN" ]
+then
+echo 'No symbol / in FTN number.'
+echo "Try to input next try. Exiting."
+exit
+fi
+
+CHECKFTN1=`echo "$ftnnumber" | grep ":" `
+if [ -z "$CHECKFTN1" ]
+then
+echo 'No symbol : in FTN number.'
+echo "Try to input next try. Exiting."
+exit
+fi
+
+echo "Checking if this link exist."
+Z=`cat /usr/local/etc/fido/link.lst | grep ""$ftnnumber" " `
+if [ -z "$Z" ]
+then
+echo 
+else
+echo 
+grep ""$ftnnumber" " /usr/local/etc/fido/link.lst | grep "Password " | sed "s|##.*||g" | sed "s|Password ||" | sed "s| ||g" > /tmp/password
+GETPASSWORD=`cat /tmp/password`
+grep ""$GETPASSWORD" " /usr/local/etc/binkd.cfg | sed "s|##.*||g"  > /tmp/testpass
+CHE=`sed -n ""2"p" /tmp/testpass`
+if [ "$CHE" = "" ];
+then
+echo
+else
+echo "Not one password in configuration. Seems 2 or more your links or points have same password"
+echo "Cannot change password, exit."
+exit
+fi
+echo "Changing password $GETPASSWORD to new one..."
+
+echo "Enter new password for link "$ftnnumber" and press [ENTER]."
+echo "(not bigger then 8 symbols)"
+echo -n "Sample -  09876543: " 
+read linkpassword
+if [ -z "$linkpassword" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck7="${linkpassword//[^$AllowedChars]/}"
+if [ "$linkpassword" = "$ScrubbedCheck7" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+echo ""
+echo "Changing password in files"
+echo "/usr/local/etc/binkd.cfg"
+echo "/usr/local/etc/fido/link.lst"
+echo "/usr/local/etc/golded+/macro.cfg"
+
+sed -i "s| $GETPASSWORD | $linkpassword |" /usr/local/etc/binkd.cfg
+sed -i "s| $GETPASSWORD | $linkpassword |" /usr/local/etc/fido/link.lst
+sed -i "s|,$GETPASSWORD,|,$linkpassword,|" /usr/local/etc/golded+/macro.cfg
+rm -f /tmp/testpass
+rm -f /tmp/password
+exit
+fi
+
+echo "Checking if this point exist."
+Y=`cat /usr/local/etc/fido/point.lst | grep ""$ftnnumber" " `
+if [ -z "$Y" ]
+then
+echo "No such point or link in configuration"
+else
+echo 
+grep ""$ftnnumber" " /usr/local/etc/fido/link.lst | grep "Password " | sed "s|##.*||g" | sed "s|Password ||" | sed "s| ||g" > /tmp/password
+GETPASSWORD=`cat /tmp/password`
+grep ""$GETPASSWORD" " /usr/local/etc/binkd.cfg | sed "s|##.*||g"  > /tmp/testpass
+if [ "$CHE" = "" ];
+then
+echo
+else
+echo "Not one password in configuration. Seems 2 or more your links or points have same password"
+echo "Cannot change password, exit."
+exit
+fi
+echo "Changing password $GETPASSWORD to new one..."
+
+echo "Enter new password for point "$ftnnumber" and press [ENTER]."
+echo "(not bigger then 8 symbols)"
+echo -n "Sample -  09876543: " 
+read linkpassword
+if [ -z "$linkpassword" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck7="${linkpassword//[^$AllowedChars]/}"
+if [ "$linkpassword" = "$ScrubbedCheck7" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+echo ""
+echo "Changing password in files"
+echo "/usr/local/etc/binkd.cfg"
+echo "/usr/local/etc/fido/point.lst"
+sed -i "s| $GETPASSWORD | $linkpassword |" /usr/local/etc/binkd.cfg
+sed -i "s| $GETPASSWORD | $linkpassword |" /usr/local/etc/fido/point.lst
+
+fi
+
+rm -f /tmp/password
+rm -f /tmp/testpass

@@ -1,0 +1,32 @@
+# fidoip NMS(Node Management System) crontab tasks
+# crontab for fido statistics, rules posting and polling
+# 
+# For starting this tasks just click on \usr\bin\crontask.vbs
+# file.
+# 
+# If you whould like to modify schedule just edit this file
+# then click on icon fxcron in a tray and then select "Reload 
+# crontab file" menu 
+
+# format
+# min  hour   day      month      day_of_week command
+
+# This script runs every month(at 1-st day 00:05),
+# generate montly statistics, post it to local area .robots,
+# post rules to areas and clean up old outbound files
+
+5      0      1      *      *      @%DRIVELETTER%/usr/bin/fido.monthly.bat
+
+# This script runs every day(at 23:57), generate dayly statistics,
+# and post it to local area .robots 
+
+57      23      *      *      *      @%DRIVELETTER%/usr/bin/fido.dayly.bat
+
+# This script runs every 22 minutes and poll your links to exchange messages
+
+*/22      *      *      *      *      @%DRIVELETTER%/usr/bin/rs.bat
+
+# This script runs every 7 minutes and toss messages of your points
+
+*/7      *      *      *      *      @%DRIVELETTER%/usr/bin/toss.bat
+

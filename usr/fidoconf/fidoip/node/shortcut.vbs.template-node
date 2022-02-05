@@ -1,0 +1,46 @@
+'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'   This file is part of fidoip. It is free software and it is covered
+'   by the GNU general public license. See the file LICENSE for details. */
+
+' Script for creation shortcut for ge.bat and rs.bat on Desktop  
+
+' Called from and setup_node.vbs configure script
+
+On Error Resume Next 
+
+Set Shell = CreateObject("wscript.shell")
+DesktopPath = Shell.SpecialFolders("Desktop")
+Set link = Shell.CreateShortCut(DesktopPath & "\ge.bat.lnk")
+link.Arguments = ""
+link.Description = "GoldEd FIDONet Editor"
+link.Hotkey = "Ctrl+Alt+g"
+link.IconLocation = "%DRIVELETTER%\usr\fidoconf\fidoip\fidoip-128.ico"
+link.TargetPath = "%DRIVELETTER%\usr\bin\ge.bat" 
+link.WindowStyle = 1
+link.WorkingDirectory = "%DRIVELETTER%\usr\bin\"
+link.Save
+
+
+DesktopPath = Shell.SpecialFolders("Desktop")
+Set link = Shell.CreateShortCut(DesktopPath & "\binkdsrv.bat.lnk")
+link.Arguments = ""
+link.Description = "Binkd & fxcron services start"
+link.Hotkey = "Ctrl+Alt+b"
+link.IconLocation = "%DRIVELETTER%\usr\fidoconf\fidoip\fidoip-64.ico"
+link.TargetPath = "%DRIVELETTER%\usr\bin\binkdsrv.bat" 
+link.WindowStyle = 1
+link.WorkingDirectory = "%DRIVELETTER%\usr\bin\"
+link.Save
+
+ 
+DesktopPath = Shell.SpecialFolders("Desktop")
+Set link = Shell.CreateShortCut(DesktopPath & "\Polling-test.bat.lnk")
+link.Arguments = ""
+link.Description = "Testing polling out FIDONet links"
+link.Hotkey = "Ctrl+Alt+r"
+link.IconLocation = "%DRIVELETTER%\usr\fidoconf\fidoip\fidoip-96.ico"
+link.TargetPath = "%DRIVELETTER%\usr\bin\rs.bat" 
+link.WindowStyle = 1
+link.WorkingDirectory = "%DRIVELETTER%\usr\bin\"
+link.Save
+

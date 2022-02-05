@@ -1,0 +1,29 @@
+REM Dayly statistics reports script genetation for fidoip node
+REM Run this script dayly by fxcron Task Manager at 23:57 each day 
+
+echo off
+
+%DRIVELETTER%
+cd \usr\bin
+
+echo Generating dayly statistics of binkd, hpt, htick
+
+\usr\bin\binkdstat.pl -d1 >  \home\fido\binkd-dayly.rpt
+\usr\bin\hptlogstat.pl 1 -traffic > \home\fido\hpt-dayly.rpt
+\usr\bin\st_htick.pl 1 > \home\fido\htick-dayly.rpt
+
+echo Generating system statistics  
+del /F /Q \home\fido\system-dayly.tmp
+cscript \usr\bin\sys_report.vbs
+date /T > \home\fido\system-dayly.rpt
+type \home\fido\system-dayly.tmp | \usr\bin\iconv -t IBM866 >> \home\fido\system-dayly.rpt
+
+echo Post gathered statistics to SHORTNODE-NAME.robots echo
+
+call \usr\bin\params.bat
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Mailer statistic for node MYNODE-ADDRESS(dayly script job)" -e "SHORTNODE-NAME.robots" -d \home\fido\localinb \home\fido\binkd-dayly.rpt
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Tosser statistic for node MYNODE-ADDRESS(dayly script job)" -e "SHORTNODE-NAME.robots" -d \home\fido\localinb \home\fido\hpt-dayly.rpt
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Files statistic for node MYNODE-ADDRESS(dayly script job)" -e "SHORTNODE-NAME.robots" -d \home\fido\localinb \home\fido\htick-dayly.rpt
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "System statistic for node MYNODE-ADDRESS(dayly script job)" -e "SHORTNODE-NAME.robots" -d \home\fido\localinb \home\fido\system-dayly.rpt
+
+\usr\bin\toss.bat

@@ -1,0 +1,347 @@
+#!/bin/sh
+# add new point to /usr/local/etc/binkd.cfg and /usr/local/etc/fido/point.lst
+
+echo "--------------------------------------------------------------------"
+echo ""
+echo "This script add new POINT to fidoip's FIDONet node."
+echo ""
+echo "--------------------------------------------------------------------"
+echo ""
+
+rm -f /tmp/fidoiptmp
+
+cat /usr/local/etc/binkd.cfg | grep "####" | grep point > /tmp/point.list.tmp
+cat /tmp/point.list.tmp | sed "s|####.*||g" | sed "s/node//g" | sed "s| - |     |g" >  /tmp/point.info.tmp
+POINTINFO=`cat /tmp/point.info.tmp`
+NODENUMBER=`cat /usr/local/etc/binkd.cfg | grep node | grep ".1 - " | sed "s| -.*||g" | sed "s|node ||g" | sed "s|\\..*||g" `
+SYSOPNAME=`cat /usr/local/etc/binkd.cfg | grep "sysop " | sed "s|sysop ||g" | sed 's|"||g'`
+SYSOPNAME1=`echo $SYSOPNAME | sed "s|_| |g" `
+NODENUMBER1=`echo $NODENUMBER | sed 's|/|\\\/|g'`
+SHORTNODENAME=`echo $NODENUMBER | sed 's|.*:||g' | sed 's|/|-|g'`
+NUMBER=`cat /tmp/point.info.tmp | wc -l`
+station=`cat /usr/local/etc/binkd.cfg | grep sysname | sed "s/sysname//g" | sed 's|"||g' | sed 's| ||g' `
+
+if [ $NUMBER = "0" ];then
+echo "No point added to /usr/local/etc/binkd.cfg yet"
+fi
+
+echo "=================================================="
+echo "Here is mailer informaion regarging exist points"
+echo "in configuration file /usr/local/etc/binkd.cfg:"
+echo "Point number:     Password for session:"
+cat /tmp/point.info.tmp | more
+echo "=================================================="
+
+echo ""
+
+# Declaration of allowed symbol for user input scrubbing
+declare -r AllowedChars="1234567890/., :-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+declare -r AllowedNumbers="1234567890"
+
+echo "Enter new POINT first and last name and press [ENTER]."
+echo -n "Sample -  Ivan Papuasov: "
+read fullname
+
+if [ -z "$fullname" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck="${fullname//[^$AllowedChars]/}"
+if [ "$fullname" = "$ScrubbedCheck" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+# Inserting \ before space
+echo  "$fullname" | sed 's/ /\\ /g' > /tmp/fidoiptmp
+fullname1=`cat /tmp/fidoiptmp`
+
+# Inserting _ instead of space
+
+echo  "$fullname" | sed 's/ /\_/g' > /tmp/fidoiptmp
+fullname2=`cat /tmp/fidoiptmp`
+
+
+echo -e "Enter new and free POINT number and press [ENTER]."
+echo -n "Sample -  777: "
+read pointaddress
+if [ -z "$pointaddress" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck5="${pointaddress//[^$AllowedNumbers]/}"
+if [ "$pointaddress" = "$ScrubbedCheck5" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedNumbers""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+existp=`listpoint | grep "\.$pointaddress " `
+
+if [ -z "$existp" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered existed number."
+echo 'Please run this script again and select other point number.'
+echo -n '               '
+exit
+fi
+
+if [ "1" = "$pointaddress" ]; then
+echo " Error. You entered existed number."
+echo 'Please run this script again and select other point number.'
+echo -n '               '
+exit
+else
+echo ' '
+fi
+
+
+if [ "333" = "$pointaddress" ]; then
+echo " Error. You entered existed number."
+echo 'Please run this script again and select other point number.'
+echo -n '               '
+exit
+else
+echo ' '
+fi
+
+
+
+
+echo "Enter new POINT password and press [ENTER]."
+echo "(not bigger then 8 symbols)"
+echo -n "Sample -  12345678: " 
+read point1password
+if [ -z "$point1password" ]
+then
+echo 'You input nothing.'
+echo 'Please run this script again and input something.'
+exit
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck31="${point1password//[^$AllowedChars]/}"
+if [ "$point1password" = "$ScrubbedCheck31" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+
+echo "Enter POINT station name and press[ENTER](optional)."
+echo -n "Sample -  StationNameX: "
+read stationname
+if [ -z "$stationname" ]
+then
+stationname="StationNameX"
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck1="${stationname//[^$AllowedChars]/}"
+if [ "$stationname" = "$ScrubbedCheck1" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+# Inserting _ instead space
+echo  "$stationname" | sed 's/ /\_/g' > /tmp/fidoiptmp
+stationname1=`cat /tmp/fidoiptmp`
+
+
+echo "Enter POINT location and press[ENTER](optional)."
+echo -n "Sample -  Moscow: "
+read locationname
+if [ -z "$locationname" ]
+then
+locationname="Moscow"
+fi
+
+# Checking user input&scrubbing
+ScrubbedCheck2="${locationname//[^$AllowedChars]/}"
+if [ "$locationname" = "$ScrubbedCheck2" ]; then
+echo  ''
+else
+echo ' '
+echo " Error. You entered wrong symbols. Allowed symbols are: "
+echo -n ' '
+echo -n ""$AllowedChars""
+echo -n '               '
+echo 'Please run this script again and be more carefull during inputing.'
+echo -n '               '
+exit
+fi
+
+# Inserting _ instead space
+echo  "$locationname" | sed 's/ /\_/g' > /tmp/fidoiptmp
+locationname1=`cat /tmp/fidoiptmp`
+
+# Inserting space instead -
+echo  "$locationname1" | sed 's/_/\ /g' > /tmp/fidoiptmp
+locationname2=`cat /tmp/fidoiptmp`
+
+# Deleting spaces
+
+
+echo  "$locationname" | sed 's/\ //g' > /tmp/fidoiptmp
+locationname3=`cat /tmp/fidoiptmp`
+
+# Deleting ,
+echo  "$locationname3" | sed 's/\,//g' > /tmp/fidoiptmp
+locationname4=`cat /tmp/fidoiptmp`
+
+
+echo ""
+echo "--------------------------------------------------------------------"
+echo ""
+
+echo -n "New POINT Full Name : "
+echo $fullname
+echo -n "New POINT Address : "
+echo $NODENUMBER.$pointaddress
+echo -n "New POINT password is : "
+echo $point1password
+echo -n "New POINT station name is(optional) : "
+echo $stationname
+echo -n "New POINT location is(optional) : "
+echo $locationname
+
+echo ""
+echo "--------------------------------------------------------------------"
+echo ""
+
+echo "OK? "
+echo "[y/n]"
+read reply
+echo ""  
+if [ "$reply" = "y" ];
+	then 
+
+cp /usr/local/etc/fidoip/node/binkpoint.template-node /tmp/binkpoint.template-node
+cp /usr/local/etc/fidoip/node/point.lst.template-node /tmp/point.lst.template-node
+cp /usr/local/etc/fidoip/node/readonly-point.lst.template-node /tmp/readonly-point.lst.template-node
+cp /usr/local/etc/fidoip/node/test.template-node /tmp/test.template-node
+cp /usr/local/etc/fidoip/node/announce.template-node /tmp/announce.template-node
+cp /usr/local/etc/fidoip/node/welcome1.template-node /tmp/welcome1.template-node
+cp /usr/local/etc/fidoip/node/welcome.template-node /tmp/welcome.template-node
+
+pointname=`echo "$fullname" | sed "s| .*||g"`
+
+sed -i "s|POINT-FULL-NAME|$fullname1|g" /tmp/binkpoint.template-node
+sed -i "s|POINT-NAME|$pointname|g" /tmp/test.template-node
+sed -i "s|POINT-NAME|$pointname|g" /tmp/welcome1.template-node
+sed -i "s|POINT-FULL-NAME|$fullname1|g" /tmp/welcome.template-node
+sed -i "s|POINT-FULL-NAME|$fullname1|g" /tmp/announce.template-node
+
+sed -i "s|SYSTEM-OPERATOR-NAME|$SYSOPNAME1|g" /tmp/test.template-node
+sed -i "s|SYSTEM-OPERATOR-NAME|$SYSOPNAME1|g" /tmp/welcome1.template-node
+sed -i "s|SYSTEM-OPERATOR-NAME|$SYSOPNAME1|g" /tmp/welcome.template-node
+sed -i "s|SYSTEM-OPERATOR-NAME|$SYSOPNAME1|g" /tmp/announce.template-node
+
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/test.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/welcome1.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/welcome.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/announce.template-node
+
+sed -i "s|SYSTEM-NAME|$station|g" /tmp/test.template-node
+sed -i "s|SYSTEM-NAME|$station|g" /tmp/welcome1.template-node
+sed -i "s|SYSTEM-NAME|$station|g" /tmp/welcome.template-node
+sed -i "s|SYSTEM-NAME|$station|g" /tmp/announce.template-node
+sed -i "s|POINT-NUMBER|$pointaddress|g" /tmp/welcome.template-node
+sed -i "s|POINT-NUMBER|$pointaddress|g" /tmp/announce.template-node
+sed -i "s|ECHO-TEST-NAME-LOCAL|$SHORTNODENAME.test|g" /tmp/test.template-node
+
+sed -i "s|POINT-LOCATION|$locationname4|g" /tmp/binkpoint.template-node
+sed -i "s|POINT-STATION-NAME|$stationname1|g" /tmp/binkpoint.template-node
+sed -i "s|POINT-STATION-NAME|$stationname1|g" /tmp/binkpoint.template-node
+sed -i "s|POINT-STATION-NAME|$stationname1|g" /tmp/announce.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/binkpoint.template-node
+
+sed -i "s|POINT-NUMBER|$pointaddress|g" /tmp/binkpoint.template-node
+sed -i "s|POINT-PASSWORD|$point1password|g" /tmp/binkpoint.template-node
+
+sed -i "s|POINT-FULL-NAME|$fullname1|g" /tmp/point.lst.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/point.lst.template-node
+sed -i "s|MYNODE-ADDRESS|$NODENUMBER|g" /tmp/readonly-point.lst.template-node
+sed -i "s|POINT-NUMBER|$pointaddress|g" /tmp/point.lst.template-node
+sed -i "s|POINT-NUMBER|$pointaddress|g" /tmp/readonly-point.lst.template-node
+sed -i "s|SHORTNODE-NAME|$SHORTNODENAME|g" /tmp/readonly-point.lst.template-node
+sed -i "s|POINT-NUMBER|$pointaddress|g" /tmp/binkpoint.template-node
+sed -i "s|POINT-PASSWORD|$point1password|g" /tmp/point.lst.template-node
+sed -i "s|$NODENUMBER1.333 $NODENUMBER1.1|$NODENUMBER1.333 $NODENUMBER1.1 $NODENUMBER1.$pointaddress |g" /usr/local/etc/fido/config
+
+cat /tmp/binkpoint.template-node >> /usr/local/etc/binkd.cfg
+cat /tmp/point.lst.template-node >> /usr/local/etc/fido/point.lst
+cat /tmp/readonly-point.lst.template-node >> /usr/local/etc/fido/readonly.lst
+
+echo
+echo "Generating welcome, announce and test messages for new point "$NODENUMBER"."$pointaddress""
+
+export FIDOCONFIG=/usr/local/etc/fido/config
+txt2pkt -nf "$SYSOPNAME1" -xf "$NODENUMBER"  -xt "$NODENUMBER" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "New point ""$NODENUMBER""."$pointaddress"" -e ""$SHORTNODENAME".local" -d /home/fido/localinb /tmp/welcome.template-node
+txt2pkt -nf "$SYSOPNAME1" -xf "$NODENUMBER"  -xt "$NODENUMBER" -nt "$fullname" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip"  -s "Test message" -e ""$SHORTNODENAME".test" -d /home/fido/localinb /tmp/test.template-node
+txt2pkt -nf "$SYSOPNAME1" -xf "$NODENUMBER"  -xt "$NODENUMBER" -nt "$fullname" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Welcome!!!" -e ""$SHORTNODENAME".local" -d /home/fido/localinb /tmp/welcome1.template-node
+txt2pkt -nf "Dumb-robot" -xf "$NODENUMBER".333  -xt "$NODENUMBER" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Added New point ""$NODENUMBER""."$pointaddress"" -e ""$SHORTNODENAME".official" -d /home/fido/localinb /tmp/announce.template-node
+
+toss
+
+echo
+echo "Point "$NODENUMBER".$pointaddress added to configuration files"
+echo "/usr/local/etc/binkd.cfg"
+echo "/usr/local/etc/fido/config"
+echo "/usr/local/etc/fido/point.lst"
+echo "/usr/local/etc/fido/readonly.lst"
+echo "Done"
+
+
+if [ -e /tmp/fidoiptmp ]; then
+	rm /tmp/fidoiptmp
+fi
+
+rm -f /tmp/*.template-node
+
+elif [ "$reply" = "n" ];
+	then 
+echo "Please modify configuration files manually or run this script again."
+
+fi
+

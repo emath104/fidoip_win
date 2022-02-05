@@ -1,0 +1,32 @@
+echo off
+
+set FIDOCONFIG=%DRIVELETTER%\usr\fidoconf\config.cfg
+%DRIVELETTER%
+echo Generating welcome and announce messages
+
+\usr\bin\txt2pkt.exe -nf "Developer of fidoip" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS -nt "POINT-NAME" -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Welcome to new node, sysop!" -e "SHORTNODE-NAME.local" -d \home\fido\localinb \home\fido\welcome2.template-node
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS  -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Uplink LINK-NODE-ADDRESS is created " -e "SHORTNODE-NAME.official" -d \home\fido\localinb \home\fido\announce1.template-node
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS  -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "System point MYNODE-ADDRESS.1 is added for sysop" -e "SHORTNODE-NAME.official" -d \home\fido\localinb \home\fido\announce.template-node
+
+
+echo Sending rules to MYNODE-ADDRESS.local, MYNODE-ADDRESS.test, MYNODE-ADDRESS.forwards
+
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS  -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Rules of SHORTNODE-NAME.test" -e "SHORTNODE-NAME.test" -d \home\fido\localinb \home\fido\rules2.txt
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS  -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Rules of SHORTNODE-NAME.forwards" -e "SHORTNODE-NAME.forwards" -d \home\fido\localinb \home\fido\rules1.txt
+\usr\bin\txt2pkt.exe -nf "Dumb-robot" -xf MYNODE-ADDRESS.333  -xt MYNODE-ADDRESS  -t "Powered by automatic fidoip NMS(Node Management System)" -o "http://sourceforge.net/apps/mediawiki/fidoip" -s "Rules of SHORTNODE-NAME.local" -e "SHORTNODE-NAME.local" -d \home\fido\localinb \home\fido\rules.txt
+
+echo Scanning for inbound messages and files and packing
+\usr\bin\hpt.exe scan pack
+echo Tossing messages
+\usr\bin\htick.exe toss
+echo Annoncing received files
+\usr\bin\htick.exe announce
+echo Linking received messages into echo areas
+\usr\bin\hpt.exe toss link
+echo AreaFix changing requests processing
+\usr\bin\hpt.exe afix
+echo FileFix changing requests processing
+\usr\bin\htick.exe ffix
+echo New fecho files tossing
+\usr\bin\htick.exe toss
+

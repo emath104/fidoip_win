@@ -1,0 +1,3 @@
+
+\usr\bin\binkd.exe -cp -P LINK-NODE-ADDRESS \usr\fidoconf\binkd.cfg
+ 
