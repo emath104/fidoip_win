@@ -368,6 +368,8 @@ iconv:
 
 \usr\bin\busybox.exe date | iconv -t 866     
  
+Также в fidoip включен и встроенный perl, находится он в каталоге \usr\perl
+
 Запуск скриптов, которые автоматически публикуют новости и другую информацию
 в твои локальные эхоконференции, можно осуществлять при помощи встроенного
 планировщика заданий fxcron(см. описание ниже).  
@@ -382,7 +384,7 @@ iconv:
 нужно поставить Perl для Windows. Мною опробованы две сборки Perl для Windows
 -ActiveState  Perl(http://www.activestate.com) и Strawberry Perl
 (http://strawberryperl.com/). Обе версии работали со скриптами правильно. Ниже
-приведена краткая инструкция  по установке ActiveState Perl, но для Strawberry 
+приведена краткая инструкция  по установке ActiveState Perl, но для Strawberry
 Perl она похожая. Нужно загрузить с сайта:
 
 http://www.activestate.com/activeperl/downloads
@@ -397,6 +399,17 @@ _ActivePerl-version-platform-buildversion.msi_.
 редактор Golded(или пересканируй эхи). Если в локальной эхе .robots твоего
 узла появятся сообщения со статистикой, значит можно переходить к следующему 
 пункту.
+
+Либо можно использовать встроенную версию perl в fidoip.
+ 
+Для этого при первоначальной настройке не забудь поменять в файле setup_node.vbs 
+const UseBuildInPerl       = "No"
+на
+const UseBuildInPerl       = "Yes"
+
+И периодические задания станут использовать встроенную в fidoip версию perl, 
+а Strawberry Perl  или ActiveState Perl можно не устанавливать.    
+
 
 2. Затем нужно запустить сам сервис binkd и встроенный в fidoip планировик
 заданий fxcron - чтобы твои поинты и даун-линки могли подключиться и забрать

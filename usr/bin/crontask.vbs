@@ -2,6 +2,7 @@
 '   This file is part of fidoip. It is free software and it is covered
 '   by the GNU general public license. See the file LICENSE for details. */
 
+
 ' Script for starting fidoip Task Manager fxcron 
 
 On Error Resume Next 
@@ -17,4 +18,4 @@ Next
 
 DIM objShell
 set objShell=wscript.createObject("wscript.shell")
-iReturn=objShell.Run("D:\usr\bin\fxcron.exe -f D:\usr\fidoconf\crontab.cfg -l D:\home\fido\crond.log -v", 0, TRUE)
+iReturn=objShell.Run("C:\usr\bin\fxcron.exe -f C:\usr\fidoconf\crontab.cfg -l C:\home\fido\crond.log -v", 0, TRUE)

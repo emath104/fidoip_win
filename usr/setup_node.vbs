@@ -1,4 +1,4 @@
-'/* Copyright (C) 2007-2012 Maxim Sokolsky, 2:5020/828.777.
+'/* Copyright (C) 2007-2012 Falcony, 2:5020/828.777.
 '   This file is part of fidoip. It is free software and it is covered
 '   by the GNU general public license. See the file LICENSE for details. */
 
@@ -25,17 +25,18 @@ const yourUplinkPassword          = "09876543"
 
 
 ' Это необязательная настройка. This is additional setting.
+' Использовать вcтроенный в fidoip perl. Use build-in perl fidoip.
+' Yes или/or No.
+'---------------------------------
+const UseBuildInPerl       = "No"
+'----------------------------
+
+' Это необязательная настройка. This is additional setting.
 ' Поддержка FGHI в заголовках писем. FGHI support in headers.
 ' Yes или/or No.
 '---------------------------------
 const FGHIHeader       = "Yes"
 '----------------------------
-
-
-
-
-
-
 
 
 
@@ -117,9 +118,25 @@ FSO.CopyFile "\usr\fidoconf\fidoip\node\filefix.template-node", "\home\fido\file
 
 FSO.CopyFile "\usr\fidoconf\fidoip\node\macro.cfg.template-node",  "\usr\GoldEd+\macro.cfg"
 
+
+
 FSO.CopyFile "\usr\fidoconf\fidoip\node\fido.dayly.bat.template-node",  "\usr\bin\fido.dayly.bat"
 
 FSO.CopyFile "\usr\fidoconf\fidoip\node\fido.monthly.bat.template-node",  "\usr\bin\fido.monthly.bat"
+
+
+If UseBuildInPerl = "Yes" Then
+FSO.CopyFile "\usr\fidoconf\fidoip\node\fido.dayly.bat.template-perl-node",  "\usr\bin\fido.dayly.bat"
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\fido.monthly.bat.template-perl-node",  "\usr\bin\fido.monthly.bat"
+else
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\fido.dayly.bat.template-node",  "\usr\bin\fido.dayly.bat"
+
+FSO.CopyFile "\usr\fidoconf\fidoip\node\fido.monthly.bat.template-node",  "\usr\bin\fido.monthly.bat"
+
+End If
+
 
 FSO.CopyFile "\usr\fidoconf\fidoip\node\rules.txt",  "\home\fido\rules.txt"
 FSO.CopyFile "\usr\fidoconf\fidoip\node\rules1.txt",  "\home\fido\rules1.txt"
@@ -142,6 +159,7 @@ FSO.CopyFile "\usr\fidoconf\fidoip\node\announce.template-node",  "\home\fido\an
 FSO.CopyFile "\usr\fidoconf\fidoip\node\crontask.vbs.template-node", "\usr\bin\crontask.vbs"
 FSO.CopyFile "\usr\fidoconf\fidoip\node\crontab.cfg.template-node", "\usr\fidoconf\crontab.cfg"
 FSO.CopyFile "\usr\fidoconf\fidoip\node\shortcut.vbs.template-node", "\usr\bin\shortcut.vbs"
+
 
 If FGHIHeader = "Yes" Then
 FSO.CopyFile "\usr\fidoconf\fidoip\golded.tpl.template","\usr\GoldEd+\golded.tpl"

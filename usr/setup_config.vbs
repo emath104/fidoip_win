@@ -3,7 +3,7 @@
 '   by the GNU general public license. See the file LICENSE for details. */
 
 ' Script was created by Kirill Temnenkov 2:5020/828 for node 828
-' Script was modified by Maxim Sokolsky 2:5020/828.777 for fidoip package
+' Script was modified by Falcony 2:5020/828.777 for fidoip package
 
 ' Script for creation FIDONet IP point configuraion
 Option Explicit
